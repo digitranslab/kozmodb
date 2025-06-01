@@ -1,0 +1,3 @@
+kozmochain
+streamlit
+pysqlite3-binary
