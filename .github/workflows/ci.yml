@@ -44,6 +44,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgeos-dev libproj-dev libgdal-dev swig
       - name: Install Hatch
         run: pip install hatch
       - name: Load cached venv
@@ -53,6 +57,11 @@ jobs:
           path: .venv
           key: venv-kozmodb-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
       - name: Install dependencies
+        timeout-minutes: 20
+        env:
+          PIP_TIMEOUT: 60
+          PIP_RETRIES: 3
+          PIP_CACHE_DIR: /tmp/pip-cache
         run: |
           make install_all
           pip install -e ".[test]"
@@ -78,6 +87,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        env:
+          POETRY_VERSION: "1.6.1"
       - name: Install Hatch
         run: pip install hatch
       - name: Load cached venv
@@ -87,8 +102,15 @@ jobs:
           path: .venv
           key: venv-kozmochain-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
       - name: Install dependencies
-        run: cd kozmochain && make install_all
-        if: steps.cached-hatch-dependencies.outputs.cache-hit != 'true'
+        timeout-minutes: 20
+        env:
+          PIP_TIMEOUT: 60
+          PIP_RETRIES: 3
+          PIP_CACHE_DIR: /tmp/pip-cache
+        run: |
+          $HOME/.local/bin/poetry --version
+          cd kozmochain && make install_all
+#        if: steps.cached-hatch-dependencies.outputs.cache-hit != 'true'
       - name: Run Formatting
         run: |
           mkdir -p kozmochain/.ruff_cache && chmod -R 777 kozmochain/.ruff_cache
