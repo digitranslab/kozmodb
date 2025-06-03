@@ -3,33 +3,33 @@ name: ci
 on:
   push:
     branches: [main]
-    paths:
-      - 'kozmodb/**'
-      - 'tests/**'
-      - 'kozmochain/**'
-  pull_request:
-    paths:
-      - 'kozmodb/**'
-      - 'tests/**'
-      - 'kozmochain/**'
+#    paths:
+#      - 'kozmodb/**'
+#      - 'tests/**'
+#      - 'kozmochain/**'
+#  pull_request:
+#    paths:
+#      - 'kozmodb/**'
+#      - 'tests/**'
+#      - 'kozmochain/**'
 
 jobs:
-  check_changes:
-    runs-on: ubuntu-latest
-    outputs:
-      kozmodb_changed: ${{ steps.filter.outputs.kozmodb }}
-      kozmochain_changed: ${{ steps.filter.outputs.kozmochain }}
-    steps:
-    - uses: actions/checkout@v3
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          kozmodb:
-            - 'kozmodb/**'
-            - 'tests/**'
-          kozmochain:
-            - 'kozmochain/**'
+#  check_changes:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      kozmodb_changed: ${{ steps.filter.outputs.kozmodb }}
+#      kozmochain_changed: ${{ steps.filter.outputs.kozmochain }}
+#    steps:
+#    - uses: actions/checkout@v3
+#    - uses: dorny/paths-filter@v2
+#      id: filter
+#      with:
+#        filters: |
+#          kozmodb:
+#            - 'kozmodb/**'
+#            - 'tests/**'
+#          kozmochain:
+#            - 'kozmochain/**'
 
   build_kozmodb:
     needs: check_changes
