@@ -17,7 +17,7 @@ install_all:
 	pip install "shapely>=2.0.0,<2.1.0" --prefer-binary
 	pip install "numpy>=1.24.0,<2.0.0" --prefer-binary
 	# Install protobuf with a compatible version to avoid descriptor issues
-	pip install "protobuf>=4.21.0,<4.26.0"
+	pip install "protobuf>=6.30.0,<7.0.0"
 	# Install Google packages with compatible versions
 	pip install "google-api-core>=2.11.0,<3.0.0"
 	# Then install other packages
@@ -26,7 +26,7 @@ install_all:
 							upstash-vector azure-search-documents langchain-neo4j rank-bm25
 	# Install Google AI packages with proper dependencies
 	pip install google-generativeai google-ai-generativelanguage
-	pip install google-cloud-aiplatform grpc-google-iam-v1 google-iam
+	pip install google-cloud-aiplatform grpc-google-iam-v1 google-cloud-iam
 	pip install vertexai
 	pip install --no-cache-dir --only-binary=faiss-cpu faiss-cpu
 
