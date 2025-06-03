@@ -1,8 +1,16 @@
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 
 import pytest
 
-from kozmodb.vector_stores.chroma import ChromaDB
+from kozmodb.configs.llms.base import BaseLlmConfig
+
+try:
+    from kozmodb.vector_stores.chroma import ChromaDB
+    chroma_available = True
+except (ImportError, TypeError):
+    chroma_available = False
+
+pytestmark = pytest.mark.skipif(not chroma_available, reason="ChromaDB dependencies not available or protobuf conflict")
 
 
 @pytest.fixture

@@ -1,15 +1,22 @@
 from unittest.mock import Mock, patch
 
 import pytest
-from google.api_core import exceptions
-from google.cloud.aiplatform.matching_engine.matching_engine_index_endpoint import (
-    Namespace,
-)
 
-from kozmodb.configs.vector_stores.vertex_ai_vector_search import (
-    GoogleMatchingEngineConfig,
-)
-from kozmodb.vector_stores.vertex_ai_vector_search import GoogleMatchingEngine
+try:
+    from google.api_core import exceptions
+    from google.cloud.aiplatform.matching_engine.matching_engine_index_endpoint import (
+        Namespace,
+        MatchingEngineIndexEndpoint,
+    )
+    from kozmodb.configs.vector_stores.vertex_ai_vector_search import (
+        GoogleMatchingEngineConfig,
+    )
+    from kozmodb.vector_stores.vertex_ai_vector_search import GoogleMatchingEngine, VertexAIVectorDB
+    vertexai_vector_available = True
+except ImportError:
+    vertexai_vector_available = False
+
+pytestmark = pytest.mark.skipif(not vertexai_vector_available, reason="VertexAI vector search dependencies not available")
 
 
 @pytest.fixture
