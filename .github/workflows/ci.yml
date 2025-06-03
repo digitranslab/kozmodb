@@ -32,7 +32,7 @@ jobs:
 #            - 'kozmochain/**'
 
   build_kozmodb:
-    needs: check_changes
+#    needs: check_changes
 #    if: needs.check_changes.outputs.kozmodb_changed == 'true'
     runs-on: ubuntu-latest
     strategy:
@@ -77,7 +77,7 @@ jobs:
         run: make test
 
   build_kozmochain:
-    needs: check_changes
+#    needs: check_changes
 #    if: needs.check_changes.outputs.kozmochain_changed == 'true'
     runs-on: ubuntu-latest
     strategy:
