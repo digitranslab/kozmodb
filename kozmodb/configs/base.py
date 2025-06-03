@@ -10,7 +10,7 @@ from kozmodb.vector_stores.configs import VectorStoreConfig
 
 # Set up the directory path
 home_dir = os.path.expanduser("~")
-mem0_dir = os.environ.get("MEM0_DIR") or os.path.join(home_dir, ".kozmodb")
+kozmodb_dir = os.environ.get("KOZMODB_DIR") or os.path.join(home_dir, ".kozmodb")
 
 
 class MemoryItem(BaseModel):
@@ -41,7 +41,7 @@ class MemoryConfig(BaseModel):
     )
     history_db_path: str = Field(
         description="Path to the history database",
-        default=os.path.join(mem0_dir, "history.db"),
+        default=os.path.join(kozmodb_dir, "history.db"),
     )
     graph_store: GraphStoreConfig = Field(
         description="Configuration for the graph",

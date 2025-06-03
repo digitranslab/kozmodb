@@ -26,7 +26,7 @@ import {
  * @param memory Array of Memory objects from kozmodb
  * @returns Formatted system prompt string
  */
-export const mem0MemoryContextToSystemPrompt = (memory: Memory[]): string => {
+export const kozmodbMemoryContextToSystemPrompt = (memory: Memory[]): string => {
   if (!memory || !Array.isArray(memory)) {
     return "";
   }
@@ -47,7 +47,7 @@ export const condenseKozmodbMemoryIntoHumanMessage = (
 ): HumanMessage => {
   const basePrompt =
     "These are the memories I have stored. Give more weightage to the question by users and try to answer that first. You have to modify your answer based on the memories I have provided. If the memories are irrelevant you can ignore them. Also don't reply to this section of the prompt, or the memories, they are only for your reference. The MEMORIES of the USER are: \n\n";
-  const systemPrompt = mem0MemoryContextToSystemPrompt(memory);
+  const systemPrompt = kozmodbMemoryContextToSystemPrompt(memory);
 
   return new HumanMessage(`${basePrompt}\n${systemPrompt}`);
 };
@@ -57,7 +57,7 @@ export const condenseKozmodbMemoryIntoHumanMessage = (
  * @param memories Array of Memory objects from kozmodb
  * @returns Array of BaseMessage objects
  */
-export const mem0MemoryToMessages = (memories: Memory[]): BaseMessage[] => {
+export const kozmodbMemoryToMessages = (memories: Memory[]): BaseMessage[] => {
   if (!memories || !Array.isArray(memories)) {
     return [];
   }
@@ -118,7 +118,7 @@ export interface KozmodbMemoryInput extends BaseChatMemoryInput {
   humanPrefix?: string;
   aiPrefix?: string;
   memoryOptions?: MemoryOptions | SearchOptions;
-  mem0Options?: ClientOptions;
+  kozmodbOptions?: ClientOptions;
   separateMessages?: boolean;
 }
 
@@ -158,11 +158,11 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
 
   aiPrefix = "AI";
 
-  mem0Client: InstanceType<typeof MemoryClient>;
+  kozmodbClient: InstanceType<typeof MemoryClient>;
 
   memoryOptions: MemoryOptions | SearchOptions;
 
-  mem0Options: ClientOptions;
+  kozmodbOptions: ClientOptions;
 
   // Whether to return separate messages for chat history with a SystemMessage containing (facts and summary) or return a single HumanMessage with the entire memory context.
   // Defaults to false (return a single HumanMessage) in order to allow more flexibility with different models.
@@ -187,13 +187,13 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
     this.humanPrefix = fields.humanPrefix ?? this.humanPrefix;
     this.aiPrefix = fields.aiPrefix ?? this.aiPrefix;
     this.memoryOptions = fields.memoryOptions ?? {};
-    this.mem0Options = fields.mem0Options ?? {
+    this.kozmodbOptions = fields.kozmodbOptions ?? {
       apiKey: this.apiKey,
     };
     this.separateMessages = fields.separateMessages ?? false;
     try {
-      this.mem0Client = new MemoryClient({
-        ...this.mem0Options,
+      this.kozmodbClient = new MemoryClient({
+        ...this.kozmodbOptions,
         apiKey: this.apiKey,
       });
     } catch (error) {
@@ -219,12 +219,12 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
 
     try {
       if (searchType === "get_all") {
-        memories = await this.mem0Client.getAll({
+        memories = await this.kozmodbClient.getAll({
           user_id: this.sessionId,
           ...this.memoryOptions,
         });
       } else {
-        memories = await this.mem0Client.search(values.input, {
+        memories = await this.kozmodbClient.search(values.input, {
           user_id: this.sessionId,
           ...this.memoryOptions,
         });
@@ -239,7 +239,7 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
     if (this.returnMessages) {
       return {
         [this.memoryKey]: this.separateMessages
-          ? mem0MemoryToMessages(memories)
+          ? kozmodbMemoryToMessages(memories)
           : [condenseKozmodbMemoryIntoHumanMessage(memories)],
       };
     }
@@ -247,7 +247,7 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
     return {
       [this.memoryKey]: this.separateMessages
         ? getBufferString(
-            mem0MemoryToMessages(memories),
+            kozmodbMemoryToMessages(memories),
             this.humanPrefix,
             this.aiPrefix,
           )
@@ -285,7 +285,7 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
         },
       ];
 
-      await this.mem0Client.add(messages, {
+      await this.kozmodbClient.add(messages, {
         user_id: this.sessionId,
         ...this.memoryOptions,
       });
@@ -304,7 +304,7 @@ export class KozmodbMemory extends BaseChatMemory implements KozmodbMemoryInput 
   async clear(): Promise<void> {
     try {
       // Note: Implement clear functionality if KozmodbClient provides it
-      // await this.mem0Client.clear(this.sessionId);
+      // await this.kozmodbClient.clear(this.sessionId);
     } catch (error) {
       console.error("Error clearing memories:", error);
     }

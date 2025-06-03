@@ -5,7 +5,7 @@ This script builds a personalized movie recommender that remembers your preferen
 
 In order to run this file, you need to set up your Kozmodb API at Kozmodb platform and also need an XAI API key.
 export XAI_API_KEY="your_xai_api_key"
-export MEM0_API_KEY="your_mem0_api_key"
+export KOZMODB_API_KEY="your_kozmodb_api_key"
 """
 
 import os

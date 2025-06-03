@@ -3,14 +3,14 @@ from unittest.mock import patch
 
 import pytest
 
-MEM0_TELEMETRY = os.environ.get("MEM0_TELEMETRY", "True")
+KOZMODB_TELEMETRY = os.environ.get("KOZMODB_TELEMETRY", "True")
 
-if isinstance(MEM0_TELEMETRY, str):
-    MEM0_TELEMETRY = MEM0_TELEMETRY.lower() in ("true", "1", "yes")
+if isinstance(KOZMODB_TELEMETRY, str):
+    KOZMODB_TELEMETRY = KOZMODB_TELEMETRY.lower() in ("true", "1", "yes")
 
 
 def use_telemetry():
-    if os.getenv("MEM0_TELEMETRY", "true").lower() == "true":
+    if os.getenv("KOZMODB_TELEMETRY", "true").lower() == "true":
         return True
     return False
 
@@ -22,12 +22,12 @@ def reset_env():
 
 
 def test_telemetry_enabled():
-    with patch.dict(os.environ, {"MEM0_TELEMETRY": "true"}):
+    with patch.dict(os.environ, {"KOZMODB_TELEMETRY": "true"}):
         assert use_telemetry() is True
 
 
 def test_telemetry_disabled():
-    with patch.dict(os.environ, {"MEM0_TELEMETRY": "false"}):
+    with patch.dict(os.environ, {"KOZMODB_TELEMETRY": "false"}):
         assert use_telemetry() is False
 
 

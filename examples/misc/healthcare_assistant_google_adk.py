@@ -12,7 +12,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 # Initialize Kozmodb client
-mem0_client = MemoryClient()
+kozmodb_client = MemoryClient()
 
 
 # Define Memory Tools
@@ -24,7 +24,7 @@ def save_patient_info(information: str) -> dict:
     user_id = getattr(save_patient_info, "user_id", "default_user")
 
     # Store in Kozmodb
-    mem0_client.add(
+    kozmodb_client.add(
         [{"role": "user", "content": information}],
         user_id=user_id,
         run_id="healthcare_session",
@@ -42,7 +42,7 @@ def retrieve_patient_info(query: str) -> str:
     user_id = getattr(retrieve_patient_info, "user_id", "default_user")
 
     # Search Kozmodb
-    results = mem0_client.search(
+    results = kozmodb_client.search(
         query,
         user_id=user_id,
         run_id="healthcare_session",

@@ -8,15 +8,15 @@ from posthog import Posthog
 import kozmodb
 from kozmodb.memory.setup import get_or_create_user_id
 
-MEM0_TELEMETRY = os.environ.get("MEM0_TELEMETRY", "True")
+KOZMODB_TELEMETRY = os.environ.get("KOZMODB_TELEMETRY", "True")
 PROJECT_API_KEY = "phc_hgJkUVJFYtmaJqrvf6CYN67TIQ8yhXAkWzUn9AMU4yX"
 HOST = "https://us.i.posthog.com"
 
-if isinstance(MEM0_TELEMETRY, str):
-    MEM0_TELEMETRY = MEM0_TELEMETRY.lower() in ("true", "1", "yes")
+if isinstance(KOZMODB_TELEMETRY, str):
+    KOZMODB_TELEMETRY = KOZMODB_TELEMETRY.lower() in ("true", "1", "yes")
 
-if not isinstance(MEM0_TELEMETRY, bool):
-    raise ValueError("MEM0_TELEMETRY must be a boolean value.")
+if not isinstance(KOZMODB_TELEMETRY, bool):
+    raise ValueError("KOZMODB_TELEMETRY must be a boolean value.")
 
 logging.getLogger("posthog").setLevel(logging.CRITICAL + 1)
 logging.getLogger("urllib3").setLevel(logging.CRITICAL + 1)
@@ -28,7 +28,7 @@ class AnonymousTelemetry:
 
         self.user_id = get_or_create_user_id(vector_store)
 
-        if not MEM0_TELEMETRY:
+        if not KOZMODB_TELEMETRY:
             self.posthog.disabled = True
 
     def capture_event(self, event_name, properties=None, user_email=None):

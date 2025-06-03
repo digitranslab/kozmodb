@@ -10,7 +10,7 @@ export interface Provider {
 }
 
 export const testConfig = {
-  apiKey: process.env.MEM0_API_KEY,
+  apiKey: process.env.KOZMODB_API_KEY,
   userId: "kozmodb-ai-sdk-test-user-1134774",
   deleteId: "",
   providers: [
@@ -52,7 +52,7 @@ export const testConfig = {
   createTestClient: (provider: Provider) => {
     return createKozmodb({
       provider: provider.name,
-      mem0ApiKey: process.env.MEM0_API_KEY,
+      kozmodbApiKey: process.env.KOZMODB_API_KEY,
       apiKey: provider.apiKey,
     });
   },

@@ -5,7 +5,7 @@ import { createKozmodb } from "../../src";
 import { generateText, LanguageModelV1Prompt } from "ai";
 import { testConfig } from "../../config/test-config";
 
-describe("OPENAI MEM0 Tests", () => {
+describe("OPENAI KOZMODB Tests", () => {
   const { userId } = testConfig;
   jest.setTimeout(30000);
   let kozmodb: any;
@@ -14,7 +14,7 @@ describe("OPENAI MEM0 Tests", () => {
     kozmodb = createKozmodb({
       provider: "openai",
       apiKey: process.env.OPENAI_API_KEY,
-      mem0Config: {
+      kozmodbConfig: {
         user_id: userId
       }
     });

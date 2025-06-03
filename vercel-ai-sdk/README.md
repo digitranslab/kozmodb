@@ -35,7 +35,7 @@ import { createKozmodb } from "@kozmodb/vercel-ai-provider";
 
 const kozmodb = createKozmodb({
   provider: "openai",
-  mem0ApiKey: "m0-xxx",
+  kozmodbApiKey: "m0-xxx",
   apiKey: "openai-api-key",
   config: {
     compatibility: "strict",
@@ -49,7 +49,7 @@ By default, the `openai` provider is used, so specifying it is optional:
 ```typescript
 const kozmodb = createKozmodb();
 ```
-For better security, consider setting `MEM0_API_KEY` and `OPENAI_API_KEY` as environment variables.
+For better security, consider setting `KOZMODB_API_KEY` and `OPENAI_API_KEY` as environment variables.
 
 3. Add Memories to Enhance Context:
 
@@ -76,14 +76,14 @@ These memories are now stored in your profile. You can view and manage them on t
 ### Note:
 
 For standalone features, such as `addMemories` and `retrieveMemories`,
-you must either set `MEM0_API_KEY` as an environment variable or pass it directly in the function call.
+you must either set `KOZMODB_API_KEY` as an environment variable or pass it directly in the function call.
 
 Example:
 
 ```typescript
-await addMemories(messages, { user_id: "borat", mem0ApiKey: "m0-xxx", org_id: "org_xx", project_id: "proj_xx" });
-await retrieveMemories(prompt, { user_id: "borat", mem0ApiKey: "m0-xxx", org_id: "org_xx", project_id: "proj_xx" });
-await getMemories(prompt, { user_id: "borat", mem0ApiKey: "m0-xxx", org_id: "org_xx", project_id: "proj_xx" });
+await addMemories(messages, { user_id: "borat", kozmodbApiKey: "m0-xxx", org_id: "org_xx", project_id: "proj_xx" });
+await retrieveMemories(prompt, { user_id: "borat", kozmodbApiKey: "m0-xxx", org_id: "org_xx", project_id: "proj_xx" });
+await getMemories(prompt, { user_id: "borat", kozmodbApiKey: "m0-xxx", org_id: "org_xx", project_id: "proj_xx" });
 ```
 
 ### Note:

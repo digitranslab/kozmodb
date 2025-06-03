@@ -38,7 +38,7 @@ npm install kozmodb
 import os
 from kozmodb import MemoryClient
 
-os.environ["MEM0_API_KEY"] = "your-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-api-key"
 
 client = MemoryClient()
 ```
@@ -58,7 +58,7 @@ For asynchronous operations in Python, you can use the AsyncMemoryClient:
 import os
 from kozmodb import AsyncMemoryClient
 
-os.environ["MEM0_API_KEY"] = "your-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-api-key"
 
 client = AsyncMemoryClient()
 

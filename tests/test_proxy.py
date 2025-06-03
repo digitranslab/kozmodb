@@ -35,13 +35,13 @@ def mock_litellm():
         yield mock
 
 
-def test_mem0_initialization_with_api_key(mock_openai_embedding_client, mock_openai_llm_client):
+def test_kozmodb_initialization_with_api_key(mock_openai_embedding_client, mock_openai_llm_client):
     kozmodb = Kozmodb()
-    assert isinstance(kozmodb.mem0_client, Memory)
+    assert isinstance(kozmodb.kozmodb_client, Memory)
     assert isinstance(kozmodb.chat, Chat)
 
 
-def test_mem0_initialization_with_config():
+def test_kozmodb_initialization_with_config():
     config = {"some_config": "value"}
     with patch("kozmodb.Memory.from_config") as mock_from_config:
         kozmodb = Kozmodb(config=config)
@@ -49,9 +49,9 @@ def test_mem0_initialization_with_config():
         assert isinstance(kozmodb.chat, Chat)
 
 
-def test_mem0_initialization_without_params(mock_openai_embedding_client, mock_openai_llm_client):
+def test_kozmodb_initialization_without_params(mock_openai_embedding_client, mock_openai_llm_client):
     kozmodb = Kozmodb()
-    assert isinstance(kozmodb.mem0_client, Memory)
+    assert isinstance(kozmodb.kozmodb_client, Memory)
     assert isinstance(kozmodb.chat, Chat)
 
 

@@ -6,7 +6,7 @@ import { generateText, LanguageModelV1Prompt } from "ai";
 import { testConfig } from "../../config/test-config";
 import { createCohere } from "@ai-sdk/cohere";
 
-describe("COHERE MEM0 Tests", () => {
+describe("COHERE KOZMODB Tests", () => {
   const { userId } = testConfig;
   jest.setTimeout(30000);
   let kozmodb: any;
@@ -15,7 +15,7 @@ describe("COHERE MEM0 Tests", () => {
     kozmodb = createKozmodb({
       provider: "cohere",
       apiKey: process.env.COHERE_API_KEY,
-      mem0Config: {
+      kozmodbConfig: {
         user_id: userId
       }
     });

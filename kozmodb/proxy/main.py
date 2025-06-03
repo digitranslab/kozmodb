@@ -38,21 +38,21 @@ class Kozmodb:
         host: Optional[str] = None,
     ):
         if api_key:
-            self.mem0_client = MemoryClient(api_key, host)
+            self.kozmodb_client = MemoryClient(api_key, host)
         else:
-            self.mem0_client = Memory.from_config(config) if config else Memory()
+            self.kozmodb_client = Memory.from_config(config) if config else Memory()
 
-        self.chat = Chat(self.mem0_client)
+        self.chat = Chat(self.kozmodb_client)
 
 
 class Chat:
-    def __init__(self, mem0_client):
-        self.completions = Completions(mem0_client)
+    def __init__(self, kozmodb_client):
+        self.completions = Completions(kozmodb_client)
 
 
 class Completions:
-    def __init__(self, mem0_client):
-        self.mem0_client = mem0_client
+    def __init__(self, kozmodb_client):
+        self.kozmodb_client = kozmodb_client
 
     def create(
         self,
@@ -143,10 +143,10 @@ class Completions:
             api_key=api_key,
             model_list=model_list,
         )
-        if isinstance(self.mem0_client, Memory):
-            capture_event("kozmodb.chat.create", self.mem0_client)
+        if isinstance(self.kozmodb_client, Memory):
+            capture_event("kozmodb.chat.create", self.kozmodb_client)
         else:
-            capture_client_event("kozmodb.chat.create", self.mem0_client)
+            capture_client_event("kozmodb.chat.create", self.kozmodb_client)
         return response
 
     def _prepare_messages(self, messages: List[dict]) -> List[dict]:
@@ -157,7 +157,7 @@ class Completions:
     def _async_add_to_memory(self, messages, user_id, agent_id, run_id, metadata, filters):
         def add_task():
             logger.debug("Adding to memory asynchronously")
-            self.mem0_client.add(
+            self.kozmodb_client.add(
                 messages=messages,
                 user_id=user_id,
                 agent_id=agent_id,
@@ -172,7 +172,7 @@ class Completions:
         # Currently, only pass the last 6 messages to the search API to prevent long query
         message_input = [f"{message['role']}: {message['content']}" for message in messages][-6:]
         # TODO: Make it better by summarizing the past conversation
-        return self.mem0_client.search(
+        return self.kozmodb_client.search(
             query="\n".join(message_input),
             user_id=user_id,
             agent_id=agent_id,
@@ -182,13 +182,13 @@ class Completions:
         )
 
     def _format_query_with_memories(self, messages, relevant_memories):
-        # Check if self.mem0_client is an instance of Memory or MemoryClient
+        # Check if self.kozmodb_client is an instance of Memory or MemoryClient
 
         entities = []
-        if isinstance(self.mem0_client, kozmodb.memory.main.Memory):
+        if isinstance(self.kozmodb_client, kozmodb.memory.main.Memory):
             memories_text = "\n".join(memory["memory"] for memory in relevant_memories["results"])
             if relevant_memories.get("relations"):
                 entities = [entity for entity in relevant_memories["relations"]]
-        elif isinstance(self.mem0_client, kozmodb.client.main.MemoryClient):
+        elif isinstance(self.kozmodb_client, kozmodb.client.main.MemoryClient):
             memories_text = "\n".join(memory["memory"] for memory in relevant_memories)
         return f"- Relevant Memories/Facts: {memories_text}\n\n- Entities: {entities}\n\n- User Question: {messages[-1]['content']}"

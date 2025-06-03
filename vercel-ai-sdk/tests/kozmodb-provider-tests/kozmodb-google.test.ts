@@ -5,7 +5,7 @@ import { createKozmodb } from "../../src";
 import { generateText, LanguageModelV1Prompt } from "ai";
 import { testConfig } from "../../config/test-config";
 
-describe("GOOGLE MEM0 Tests", () => {
+describe("GOOGLE KOZMODB Tests", () => {
   const { userId } = testConfig;
   jest.setTimeout(50000);
   
@@ -15,7 +15,7 @@ describe("GOOGLE MEM0 Tests", () => {
     kozmodb = createKozmodb({
       provider: "google",
       apiKey: process.env.GOOGLE_API_KEY,
-      mem0Config: {
+      kozmodbConfig: {
         user_id: userId
       }
     });

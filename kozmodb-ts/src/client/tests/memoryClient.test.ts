@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const apiKey = process.env.MEM0_API_KEY || "";
+const apiKey = process.env.KOZMODB_API_KEY || "";
 // const client = new MemoryClient({ apiKey, host: 'https://api.kozmodb.ai', organizationId: "org_gRNd1RrQa4y52iK4tG8o59hXyVbaULikgq4kethC", projectId: "proj_7RfMkWs0PMgXYweGUNKqV9M9mgIRNt5XcupE7mSP" });
 // const client = new MemoryClient({ apiKey, host: 'https://api.kozmodb.ai', organizationName: "saket-default-org", projectName: "default-project" });
 const client = new MemoryClient({ apiKey, host: "https://api.kozmodb.ai" });

@@ -141,7 +141,7 @@ def get_default_memory_config():
             "provider": "qdrant",
             "config": {
                 "collection_name": "kozmemory",
-                "host": "mem0_store",
+                "host": "kozmodb_store",
                 "port": 6333,
             }
         },
@@ -226,19 +226,19 @@ def get_memory_client(custom_instructions: str = None):
                 
                 # Override defaults with configurations from the database
                 if "kozmodb" in json_config:
-                    mem0_config = json_config["kozmodb"]
+                    kozmodb_config = json_config["kozmodb"]
                     
                     # Update LLM configuration if available
-                    if "llm" in mem0_config and mem0_config["llm"] is not None:
-                        config["llm"] = mem0_config["llm"]
+                    if "llm" in kozmodb_config and kozmodb_config["llm"] is not None:
+                        config["llm"] = kozmodb_config["llm"]
                         
                         # Fix Ollama URLs for Docker if needed
                         if config["llm"].get("provider") == "ollama":
                             config["llm"] = _fix_ollama_urls(config["llm"])
                     
                     # Update Embedder configuration if available
-                    if "embedder" in mem0_config and mem0_config["embedder"] is not None:
-                        config["embedder"] = mem0_config["embedder"]
+                    if "embedder" in kozmodb_config and kozmodb_config["embedder"] is not None:
+                        config["embedder"] = kozmodb_config["embedder"]
                         
                         # Fix Ollama URLs for Docker if needed
                         if config["embedder"].get("provider") == "ollama":

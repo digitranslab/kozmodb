@@ -93,8 +93,8 @@ const searchInternalMemories = async (query: string, config?: KozmodbConfigSetti
         }
 
         const apiKey = loadApiKey({
-            apiKey: (config&&config.mem0ApiKey),
-            environmentVariableName: "MEM0_API_KEY",
+            apiKey: (config&&config.kozmodbApiKey),
+            environmentVariableName: "KOZMODB_API_KEY",
             description: "Kozmodb",
         });
 
@@ -146,8 +146,8 @@ const addMemories = async (messages: LanguageModelV1Prompt, config?: KozmodbConf
 const updateMemories = async (messages: Array<Message>, config?: KozmodbConfigSettings) => {
     try {
         const apiKey = loadApiKey({
-            apiKey: (config&&config.mem0ApiKey),
-            environmentVariableName: "MEM0_API_KEY",
+            apiKey: (config&&config.kozmodbApiKey),
+            environmentVariableName: "KOZMODB_API_KEY",
             description: "Kozmodb",
         });
 

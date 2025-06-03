@@ -44,13 +44,13 @@ from kozmodb import MemoryClient
 
 # Set up API keys (replace with your actual keys)
 os.environ["GOOGLE_API_KEY"] = "your-google-api-key"
-os.environ["MEM0_API_KEY"] = "your-kozmodb-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-kozmodb-api-key"
 
 # Define a global user ID for simplicity
 USER_ID = "Alex"
 
 # Initialize Kozmodb client
-mem0_client = MemoryClient()
+kozmodb_client = MemoryClient()
 ```
 
 ## Define Memory Tools
@@ -62,7 +62,7 @@ def save_patient_info(information: str) -> dict:
     """Saves important patient information to memory."""
 
     # Store in Kozmodb
-    response = mem0_client.add(
+    response = kozmodb_client.add(
         [{"role": "user", "content": information}],
         user_id=USER_ID,
         run_id="healthcare_session",
@@ -74,7 +74,7 @@ def retrieve_patient_info(query: str) -> dict:
     """Retrieves relevant patient information from memory."""
 
     # Search Kozmodb
-    results = mem0_client.search(
+    results = kozmodb_client.search(
         query,
         user_id=USER_ID,
         limit=5,
@@ -279,8 +279,8 @@ This approach allows our tools to maintain user context without complicating the
 
 The integration with Kozmodb happens through two primary functions:
 
-1. `mem0_client.add()` - Stores new information with appropriate metadata
-2. `mem0_client.search()` - Retrieves relevant memories using semantic search
+1. `kozmodb_client.add()` - Stores new information with appropriate metadata
+2. `kozmodb_client.search()` - Retrieves relevant memories using semantic search
 
 The `threshold` parameter in the search function ensures that only highly relevant memories are returned.
 

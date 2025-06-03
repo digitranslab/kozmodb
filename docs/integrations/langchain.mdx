@@ -35,7 +35,7 @@ from kozmodb import MemoryClient
 
 # Configuration
 os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
-os.environ["MEM0_API_KEY"] = "your-kozmodb-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-kozmodb-api-key"
 
 # Initialize LangChain and Kozmodb
 llm = ChatOpenAI(model="gpt-4o-mini")

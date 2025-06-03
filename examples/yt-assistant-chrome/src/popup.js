@@ -154,7 +154,7 @@ async function saveKozmodbApiKey() {
     // Send to background script for saving
     const response = await chrome.runtime.sendMessage({
       action: "saveConfig",
-      config: { mem0ApiKey: apiKey },
+      config: { kozmodbApiKey: apiKey },
     });
 
     if (response.error) {
@@ -190,16 +190,16 @@ async function loadConfig() {
     }
 
     // Update kozmodb API key field
-    const mem0ApiKeyInput = document.getElementById("kozmodb-api-key");
-    if (config.mem0ApiKey) {
-      mem0ApiKeyInput.value = config.mem0ApiKey;
-      mem0ApiKeyInput.type = "password"; // Ensure it's hidden by default
+    const kozmodbApiKeyInput = document.getElementById("kozmodb-api-key");
+    if (config.kozmodbApiKey) {
+      kozmodbApiKeyInput.value = config.kozmodbApiKey;
+      kozmodbApiKeyInput.type = "password"; // Ensure it's hidden by default
       document.getElementById("kozmodb-api-key-section").style.display = "block";
       document.getElementById("kozmodb-status-text").textContent = "Connected";
       document.getElementById("kozmodb-status-text").style.color =
         "var(--success-color)";
     } else {
-      mem0ApiKeyInput.value = "";
+      kozmodbApiKeyInput.value = "";
       document.getElementById("kozmodb-api-key-section").style.display = "block";
       document.getElementById("kozmodb-status-text").textContent =
         "Not configured";

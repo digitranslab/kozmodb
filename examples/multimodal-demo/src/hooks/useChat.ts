@@ -6,7 +6,7 @@ import { WELCOME_MESSAGE, INVALID_CONFIG_MESSAGE, ERROR_MESSAGE, Provider } from
 
 interface UseChatProps {
   user: string;
-  mem0ApiKey: string;
+  kozmodbApiKey: string;
   openaiApiKey: string;
   provider: Provider;
 }
@@ -30,7 +30,7 @@ interface PromptMessage {
   content: MessageContent;
 }
 
-export const useChat = ({ user, mem0ApiKey, openaiApiKey }: UseChatProps): UseChatReturn => {
+export const useChat = ({ user, kozmodbApiKey, openaiApiKey }: UseChatProps): UseChatReturn => {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [memories, setMemories] = useState<Memory[]>();
   const [thinking, setThinking] = useState(false);
@@ -38,7 +38,7 @@ export const useChat = ({ user, mem0ApiKey, openaiApiKey }: UseChatProps): UseCh
   const openai = new OpenAI({ apiKey: openaiApiKey, dangerouslyAllowBrowser: true});
   
   const updateMemories = async (messages: PromptMessage[]) => {
-    const memoryClient = new MemoryClient({ apiKey: mem0ApiKey || '' });
+    const memoryClient = new MemoryClient({ apiKey: kozmodbApiKey || '' });
     try {
       await memoryClient.add(messages, {
         user_id: user,
@@ -84,7 +84,7 @@ export const useChat = ({ user, mem0ApiKey, openaiApiKey }: UseChatProps): UseCh
   const sendMessage = async (content: string, fileData?: { type: string; data: string | Buffer }) => {
     if (!content.trim() && !fileData) return;
 
-    const memoryClient = new MemoryClient({ apiKey: mem0ApiKey || '' });
+    const memoryClient = new MemoryClient({ apiKey: kozmodbApiKey || '' });
 
     if (!user) {
       const newMessage: Message = {

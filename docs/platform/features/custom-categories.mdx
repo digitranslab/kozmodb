@@ -24,7 +24,7 @@ Here's how to set custom categories:
 import os
 from kozmodb import MemoryClient
 
-os.environ["MEM0_API_KEY"] = "your-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-api-key"
 
 client = MemoryClient()
 
@@ -103,9 +103,9 @@ You can also set custom categories during the `add` API call. This will override
 import os
 from kozmodb import MemoryClient
 
-os.environ["MEM0_API_KEY"] = "your-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-api-key"
 
-client = MemoryClient(api_key="<your_mem0_api_key>")
+client = MemoryClient(api_key="<your_kozmodb_api_key>")
 
 custom_categories = [
     {"seeking_structure": "Documents goals around creating routines, schedules, and organized systems in various life areas"},
@@ -159,7 +159,7 @@ Here is the list of **default categories**. If you don't specify any custom cate
 import os
 from kozmodb import MemoryClient
 
-os.environ["MEM0_API_KEY"] = "your-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-api-key"
 
 client = MemoryClient()
 

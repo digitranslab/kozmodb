@@ -81,12 +81,12 @@ export class LangchainVectorStore implements VectorStore {
       // Provide empty pageContent, store kozmodb id and other data in metadata
       return new Document({
         pageContent: "", // Add required empty pageContent
-        metadata: { ...payload, _mem0_id: ids[i] },
+        metadata: { ...payload, _kozmodb_id: ids[i] },
       });
     });
 
     // Use addVectors. Note: Langchain stores often generate their own internal IDs.
-    // We store the kozmodb ID in the metadata (`_mem0_id`).
+    // We store the kozmodb ID in the metadata (`_kozmodb_id`).
     try {
       await this.lcStore.addVectors(vectors, documents, { ids }); // Pass kozmodb ids if the store supports it
     } catch (e) {
@@ -125,7 +125,7 @@ export class LangchainVectorStore implements VectorStore {
 
     // Map Langchain results [Document, score] back to kozmodb VectorStoreResult
     return results.map(([doc, score]) => ({
-      id: doc.metadata._mem0_id || "unknown_id",
+      id: doc.metadata._kozmodb_id || "unknown_id",
       payload: doc.metadata,
       score: score,
     }));
@@ -142,8 +142,8 @@ export class LangchainVectorStore implements VectorStore {
       "Method 'get' not reliably supported by LangchainVectorStore wrapper.",
     );
     // Potential (inefficient) simulation:
-    // Perform a search with a filter like { _mem0_id: vectorId }, limit 1.
-    // This requires the underlying store to support filtering on _mem0_id.
+    // Perform a search with a filter like { _kozmodb_id: vectorId }, limit 1.
+    // This requires the underlying store to support filtering on _kozmodb_id.
   }
 
   async update(
@@ -158,20 +158,20 @@ export class LangchainVectorStore implements VectorStore {
     throw new Error(
       "Method 'update' not supported by LangchainVectorStore wrapper.",
     );
-    // Possible implementation: Check if store has delete, call delete({_mem0_id: vectorId}), then insert.
+    // Possible implementation: Check if store has delete, call delete({_kozmodb_id: vectorId}), then insert.
   }
 
   async delete(vectorId: string): Promise<void> {
     // Check if the underlying store supports deletion by ID
     if (typeof (this.lcStore as any).delete === "function") {
       try {
-        // We need to delete based on our stored _mem0_id.
+        // We need to delete based on our stored _kozmodb_id.
         // Langchain's delete often takes its own internal IDs or filter.
         // Attempting deletion via filter is the most likely approach.
         console.warn(
-          "LangchainVectorStore: Attempting delete via filter on '_mem0_id'. Success depends on the specific Langchain VectorStore's delete implementation.",
+          "LangchainVectorStore: Attempting delete via filter on '_kozmodb_id'. Success depends on the specific Langchain VectorStore's delete implementation.",
         );
-        await (this.lcStore as any).delete({ filter: { _mem0_id: vectorId } });
+        await (this.lcStore as any).delete({ filter: { _kozmodb_id: vectorId } });
         // OR if it takes IDs directly (less common for *our* IDs):
         // await (this.lcStore as any).delete({ ids: [vectorId] });
       } catch (e) {

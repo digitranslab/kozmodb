@@ -5,12 +5,12 @@ import uuid
 # Set up the directory path
 VECTOR_ID = str(uuid.uuid4())
 home_dir = os.path.expanduser("~")
-mem0_dir = os.environ.get("MEM0_DIR") or os.path.join(home_dir, ".kozmodb")
-os.makedirs(mem0_dir, exist_ok=True)
+kozmodb_dir = os.environ.get("KOZMODB_DIR") or os.path.join(home_dir, ".kozmodb")
+os.makedirs(kozmodb_dir, exist_ok=True)
 
 
 def setup_config():
-    config_path = os.path.join(mem0_dir, "config.json")
+    config_path = os.path.join(kozmodb_dir, "config.json")
     if not os.path.exists(config_path):
         user_id = str(uuid.uuid4())
         config = {"user_id": user_id}
@@ -19,7 +19,7 @@ def setup_config():
 
 
 def get_user_id():
-    config_path = os.path.join(mem0_dir, "config.json")
+    config_path = os.path.join(kozmodb_dir, "config.json")
     if not os.path.exists(config_path):
         return "anonymous_user"
 

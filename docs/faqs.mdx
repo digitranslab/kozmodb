@@ -88,10 +88,10 @@ iconType: "solid"
     <Accordion title="How do I configure Kozmodb for AWS Lambda?">
         When deploying Kozmodb on AWS Lambda, you'll need to modify the storage directory configuration due to Lambda's file system restrictions. By default, Lambda only allows writing to the `/tmp` directory.
 
-        To configure Kozmodb for AWS Lambda, set the `MEM0_DIR` environment variable to point to a writable directory in `/tmp`:
+        To configure Kozmodb for AWS Lambda, set the `KOZMODB_DIR` environment variable to point to a writable directory in `/tmp`:
 
         ```bash
-        MEM0_DIR=/tmp/.kozmodb
+        KOZMODB_DIR=/tmp/.kozmodb
         ```
 
         If you're not using environment variables, you'll need to modify the storage path in your code:
@@ -99,10 +99,10 @@ iconType: "solid"
         ```python
         # Change from
         home_dir = os.path.expanduser("~")
-        mem0_dir = os.environ.get("MEM0_DIR") or os.path.join(home_dir, ".kozmodb")
+        kozmodb_dir = os.environ.get("KOZMODB_DIR") or os.path.join(home_dir, ".kozmodb")
 
         # To
-        mem0_dir = os.environ.get("MEM0_DIR", "/tmp/.kozmodb")
+        kozmodb_dir = os.environ.get("KOZMODB_DIR", "/tmp/.kozmodb")
         ```
 
         Note that the `/tmp` directory in Lambda has a size limit of 512MB and its contents are not persistent between function invocations.
@@ -127,17 +127,17 @@ iconType: "solid"
     </Accordion>
 
     <Accordion title="How do I disable telemetry in Kozmodb?">
-        To disable telemetry in Kozmodb, you can set the `MEM0_TELEMETRY` environment variable to `False`:
+        To disable telemetry in Kozmodb, you can set the `KOZMODB_TELEMETRY` environment variable to `False`:
 
         ```bash
-        MEM0_TELEMETRY=False
+        KOZMODB_TELEMETRY=False
         ```
 
         You can also disable telemetry programmatically in your code:
 
         ```python
         import os
-        os.environ["MEM0_TELEMETRY"] = "False"
+        os.environ["KOZMODB_TELEMETRY"] = "False"
         ```
 
         Setting this environment variable will prevent Kozmodb from collecting and sending any usage data, ensuring complete privacy for your application.

@@ -10,7 +10,7 @@ Build a personal browser agent that remembers user preferences and automates web
 
 In this guide, we'll explore two examples of creating Browser-based AI Agents:
 1. An agent that searches [arxiv.org](https://arxiv.org) for research papers relevant to user's research interests.
-2. A travel agent that provides personalized travel information based on user preferences. Refer to the [notebook](https://github.com/MULTI-ON/cookbook/blob/main/personalized-travel-agent/mem0_travel_agent.ipynb) for detailed code.
+2. A travel agent that provides personalized travel information based on user preferences. Refer to the [notebook](https://github.com/MULTI-ON/cookbook/blob/main/personalized-travel-agent/kozmodb_travel_agent.ipynb) for detailed code.
 
 ## Setup and Configuration
 
@@ -31,12 +31,12 @@ from openai import OpenAI
 # Configuration
 OPENAI_API_KEY = 'sk-xxx'  # Replace with your actual OpenAI API key
 MULTION_API_KEY = 'your-multion-key'  # Replace with your actual MultiOn API key
-MEM0_API_KEY = 'your-kozmodb-key'  # Replace with your actual Kozmodb API key
+KOZMODB_API_KEY = 'your-kozmodb-key'  # Replace with your actual Kozmodb API key
 USER_ID = "your-user-id"
 
 # Set up OpenAI API key
 os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
-os.environ['MEM0_API_KEY'] = MEM0_API_KEY
+os.environ['KOZMODB_API_KEY'] = KOZMODB_API_KEY
 
 # Initialize Kozmodb and MultiOn
 memory = Memory()  # For local usage

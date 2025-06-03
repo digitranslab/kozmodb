@@ -27,10 +27,10 @@ if ! docker compose version &> /dev/null; then
   exit 1
 fi
 
-# Check if the container "mem0_ui" already exists and remove it if necessary
-if [ $(docker ps -aq -f name=mem0_ui) ]; then
-  echo "⚠️ Found existing container 'mem0_ui'. Removing it..."
-  docker rm -f mem0_ui
+# Check if the container "kozmodb_ui" already exists and remove it if necessary
+if [ $(docker ps -aq -f name=kozmodb_ui) ]; then
+  echo "⚠️ Found existing container 'kozmodb_ui'. Removing it..."
+  docker rm -f kozmodb_ui
 fi
 
 # Find an available port starting from 3000
@@ -58,26 +58,26 @@ export FRONTEND_PORT
 echo "📝 Creating docker-compose.yml..."
 cat > docker-compose.yml <<EOF
 services:
-  mem0_store:
+  kozmodb_store:
     image: qdrant/qdrant
     ports:
       - "6333:6333"
     volumes:
-      - mem0_storage:/kozmodb/storage
+      - kozmodb_storage:/kozmodb/storage
   kozmemory-mcp:
     image: kozmodb/kozmemory-mcp:latest
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - USER=${USER}
-      - QDRANT_HOST=mem0_store
+      - QDRANT_HOST=kozmodb_store
       - QDRANT_PORT=6333
     depends_on:
-      - mem0_store
+      - kozmodb_store
     ports:
       - "8765:8765"
 
 volumes:
-  mem0_storage:
+  kozmodb_storage:
 EOF
 
 # Start services
@@ -87,7 +87,7 @@ docker compose up -d
 # Start the frontend
 echo "🚀 Starting frontend on port $FRONTEND_PORT..."
 docker run -d \
-  --name mem0_ui \
+  --name kozmodb_ui \
   -p ${FRONTEND_PORT}:3000 \
   -e NEXT_PUBLIC_API_URL="$NEXT_PUBLIC_API_URL" \
   -e NEXT_PUBLIC_USER_ID="$USER" \

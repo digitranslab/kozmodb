@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     networks:
-      - mem0_network
+      - kozmodb_network
     volumes:
       - ./history:/app/history      # History db location. By default, it creates a history.db file on the server folder
       - .:/app                      # Server code. This allows to reload the app when the server code is updated
@@ -30,7 +30,7 @@ services:
       restart: on-failure
       shm_size: "128mb" # Increase this if vacuuming fails with a "no space left on device" error
       networks:
-        - mem0_network
+        - kozmodb_network
       environment:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
@@ -46,7 +46,7 @@ services:
   neo4j:
     image: neo4j:5.26.4
     networks:
-      - mem0_network
+      - kozmodb_network
     healthcheck:
       test: wget http://localhost:7687 || exit 1
       interval: 1s
@@ -59,7 +59,7 @@ services:
     volumes:
       - neo4j_data:/data
     environment:
-      - NEO4J_AUTH=neo4j/mem0graph
+      - NEO4J_AUTH=neo4j/kozmodbgraph
       - NEO4J_PLUGINS=["apoc"]  # Add this line to install APOC
       - NEO4J_apoc_export_file_enabled=true
       - NEO4J_apoc_import_file_enabled=true
@@ -70,5 +70,5 @@ volumes:
   postgres_db:
 
 networks:
-  mem0_network:
+  kozmodb_network:
     driver: bridge

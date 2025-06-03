@@ -6,7 +6,7 @@ import { WELCOME_MESSAGE, INVALID_CONFIG_MESSAGE, ERROR_MESSAGE, AI_MODELS, Prov
 
 interface UseChatProps {
   user: string;
-  mem0ApiKey: string;
+  kozmodbApiKey: string;
   openaiApiKey: string;
   provider: Provider;
 }
@@ -35,14 +35,14 @@ interface PromptMessage {
   content: MessageContent[];
 }
 
-export const useChat = ({ user, mem0ApiKey, openaiApiKey, provider }: UseChatProps): UseChatReturn => {
+export const useChat = ({ user, kozmodbApiKey, openaiApiKey, provider }: UseChatProps): UseChatReturn => {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [memories, setMemories] = useState<Memory[]>([]);
   const [thinking, setThinking] = useState(false);
 
   const kozmodb = createKozmodb({
     provider,
-    mem0ApiKey,
+    kozmodbApiKey,
     apiKey: openaiApiKey,
   });
 
@@ -50,7 +50,7 @@ export const useChat = ({ user, mem0ApiKey, openaiApiKey, provider }: UseChatPro
     try {
       const fetchedMemories = await getMemories(messages, {
         user_id: user,
-        mem0ApiKey,
+        kozmodbApiKey,
       });
 
       const newMemories = fetchedMemories.map((memory: MemoryResponse) => ({

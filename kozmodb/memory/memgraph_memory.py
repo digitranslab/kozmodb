@@ -3,9 +3,9 @@ import logging
 from kozmodb.memory.utils import format_entities
 
 try:
-    from langchain_memgraph import Memgraph
+    from langchain_kozmograph import Kozmograph
 except ImportError:
-    raise ImportError("langchain_memgraph is not installed. Please install it using pip install langchain-memgraph")
+    raise ImportError("langchain_kozmograph is not installed. Please install it using pip install langchain-kozmograph")
 
 try:
     from rank_bm25 import BM25Okapi
@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 class MemoryGraph:
     def __init__(self, config):
         self.config = config
-        self.graph = Memgraph(
+        self.graph = Kozmograph(
             self.config.graph_store.config.url,
             self.config.graph_store.config.username,
             self.config.graph_store.config.password,
@@ -50,11 +50,11 @@ class MemoryGraph:
         self.user_id = None
         self.threshold = 0.7
 
-        # Setup Memgraph:
+        # Setup Kozmograph:
         # 1. Create vector index (created Entity label on all nodes)
         # 2. Create label property index for performance optimizations
         embedding_dims = self.config.embedder.config["embedding_dims"]
-        create_vector_index_query = f"CREATE VECTOR INDEX memzero ON :Entity(embedding) WITH CONFIG {{'dimension': {embedding_dims}, 'capacity': 1000, 'metric': 'cos'}};"
+        create_vector_index_query = f"CREATE VECTOR INDEX kozmozero ON :Entity(embedding) WITH CONFIG {{'dimension': {embedding_dims}, 'capacity': 1000, 'metric': 'cos'}};"
         self.graph.query(create_vector_index_query, params={})
         create_label_prop_index_query = "CREATE INDEX ON :Entity(user_id);"
         self.graph.query(create_label_prop_index_query, params={})
@@ -444,7 +444,7 @@ class MemoryGraph:
 
     def _search_source_node(self, source_embedding, user_id, threshold=0.9):
         cypher = """
-            CALL vector_search.search("memzero", 1, $source_embedding) 
+            CALL vector_search.search("kozmozero", 1, $source_embedding) 
             YIELD distance, node, similarity
             WITH node AS source_candidate, similarity
             WHERE source_candidate.user_id = $user_id AND similarity >= $threshold
@@ -462,7 +462,7 @@ class MemoryGraph:
 
     def _search_destination_node(self, destination_embedding, user_id, threshold=0.9):
         cypher = """
-            CALL vector_search.search("memzero", 1, $destination_embedding) 
+            CALL vector_search.search("kozmozero", 1, $destination_embedding) 
             YIELD distance, node, similarity
             WITH node AS destination_candidate, similarity
             WHERE node.user_id = $user_id AND similarity >= $threshold

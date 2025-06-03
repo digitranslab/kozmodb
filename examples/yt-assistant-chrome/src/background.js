@@ -3,7 +3,7 @@
 // Configuration (will be stored in sync storage eventually)
 let config = {
   apiKey: "", // Will be set by user in options
-  mem0ApiKey: "", // Will be set by user in options
+  kozmodbApiKey: "", // Will be set by user in options
   model: "gpt-4",
   maxTokens: 2000,
   temperature: 0.7,
@@ -15,10 +15,10 @@ let isConfigLoaded = false;
 
 // Initialize configuration from storage
 chrome.storage.sync.get(
-  ["apiKey", "mem0ApiKey", "model", "maxTokens", "temperature", "enabledSites"],
+  ["apiKey", "kozmodbApiKey", "model", "maxTokens", "temperature", "enabledSites"],
   (result) => {
     if (result.apiKey) config.apiKey = result.apiKey;
-    if (result.mem0ApiKey) config.mem0ApiKey = result.mem0ApiKey;
+    if (result.kozmodbApiKey) config.kozmodbApiKey = result.kozmodbApiKey;
     if (result.model) config.model = result.model;
     if (result.maxTokens) config.maxTokens = result.maxTokens;
     if (result.temperature) config.temperature = result.temperature;
@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.storage.sync.get(
           [
             "apiKey",
-            "mem0ApiKey",
+            "kozmodbApiKey",
             "model",
             "maxTokens",
             "temperature",
@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           ],
           (result) => {
             if (result.apiKey) config.apiKey = result.apiKey;
-            if (result.mem0ApiKey) config.mem0ApiKey = result.mem0ApiKey;
+            if (result.kozmodbApiKey) config.kozmodbApiKey = result.kozmodbApiKey;
             if (result.model) config.model = result.model;
             if (result.maxTokens) config.maxTokens = result.maxTokens;
             if (result.temperature) config.temperature = result.temperature;
@@ -242,7 +242,7 @@ async function sendChatRequest(messages, model) {
 
 // Future: Add kozmodb integration functions here
 // When ready, replace with actual implementation
-function mem0Integration() {
+function kozmodbIntegration() {
   // Placeholder for future kozmodb integration
   return {
     getUserMemories: async (userId) => {

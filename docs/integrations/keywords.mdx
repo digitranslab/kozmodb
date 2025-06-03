@@ -34,7 +34,7 @@ Set up your environment variables:
 import os
 
 # Set your API keys
-os.environ["MEM0_API_KEY"] = "your-kozmodb-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-kozmodb-api-key"
 os.environ["KEYWORDSAI_API_KEY"] = "your-keywords-api-key"
 os.environ["KEYWORDSAI_BASE_URL"] = "https://api.keywordsai.co/api/"
 ```
@@ -48,7 +48,7 @@ from kozmodb import Memory
 import os
 
 # Configuration
-api_key = os.getenv("MEM0_API_KEY")
+api_key = os.getenv("KOZMODB_API_KEY")
 keywordsai_api_key = os.getenv("KEYWORDSAI_API_KEY")
 base_url = os.getenv("KEYWORDSAI_BASE_URL") # "https://api.keywordsai.co/api/"
 
@@ -106,10 +106,10 @@ response = client.chat.completions.create(
     model="openai/gpt-4o",
     messages=messages,
     extra_body={
-        "mem0_params": {
+        "kozmodb_params": {
             "user_id": "test_user",
             "org_id": "org_1",
-            "api_key": os.environ.get("MEM0_API_KEY"),
+            "api_key": os.environ.get("KOZMODB_API_KEY"),
             "add_memories": {
                 "messages": messages,
             },
