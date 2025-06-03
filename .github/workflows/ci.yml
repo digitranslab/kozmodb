@@ -116,7 +116,7 @@ jobs:
       - name: Run Formatting
         run: |
           mkdir -p kozmochain/.ruff_cache && chmod -R 777 kozmochain/.ruff_cache
-          cd kozmochain && hatch run format
+          cd kozmochain && make format
       - name: Lint with ruff
         run: cd kozmochain && make lint
       - name: Run tests and generate coverage report
