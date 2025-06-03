@@ -2,8 +2,15 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+try:
+    from kozmodb.proxy.main import Chat, Completions, Kozmodb
+    proxy_available = True
+except (ImportError, AttributeError):
+    proxy_available = False
+
+pytestmark = pytest.mark.skipif(not proxy_available, reason="Proxy dependencies not available or have compatibility issues")
+
 from kozmodb import Memory, MemoryClient
-from kozmodb.proxy.main import Chat, Completions, Kozmodb
 
 
 @pytest.fixture

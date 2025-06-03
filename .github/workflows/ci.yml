@@ -72,6 +72,8 @@ jobs:
           mkdir -p .ruff_cache && chmod -R 777 .ruff_cache
           hatch run format
       - name: Run tests and generate coverage report
+        env:
+          PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
         run: make test
 
   build_kozmochain:
@@ -118,6 +120,8 @@ jobs:
       - name: Lint with ruff
         run: cd kozmochain && make lint
       - name: Run tests and generate coverage report
+        env:
+          PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
         run: cd kozmochain && make coverage
 #      - name: Upload coverage reports to Codecov
 #        uses: codecov/codecov-action@v3

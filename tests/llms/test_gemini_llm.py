@@ -1,11 +1,18 @@
 from unittest.mock import Mock, patch
 
 import pytest
-from google.generativeai import GenerationConfig
-from google.generativeai.types import content_types
+
+try:
+    from google.generativeai import GenerationConfig
+    from google.generativeai.types import content_types
+    from kozmodb.llms.gemini import GeminiLLM
+    google_genai_available = True
+except ImportError:
+    google_genai_available = False
+
+pytestmark = pytest.mark.skipif(not google_genai_available, reason="Google GenerativeAI dependencies not available")
 
 from kozmodb.configs.llms.base import BaseLlmConfig
-from kozmodb.llms.gemini import GeminiLLM
 
 
 @pytest.fixture

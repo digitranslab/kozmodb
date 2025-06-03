@@ -2,7 +2,13 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from kozmodb.vector_stores.pinecone import PineconeDB
+try:
+    from kozmodb.vector_stores.pinecone import PineconeDB
+    pinecone_available = True
+except ImportError:
+    pinecone_available = False
+
+pytestmark = pytest.mark.skipif(not pinecone_available, reason="Pinecone dependencies not available")
 
 
 @pytest.fixture

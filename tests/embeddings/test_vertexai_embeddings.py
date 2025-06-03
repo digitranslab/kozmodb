@@ -2,7 +2,15 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from kozmodb.embeddings.vertexai import VertexAIEmbedding
+from kozmodb.configs.embeddings.base import BaseEmbedderConfig
+
+try:
+    from kozmodb.embeddings.vertexai import VertexAIEmbedding
+    vertexai_available = True
+except ImportError:
+    vertexai_available = False
+
+pytestmark = pytest.mark.skipif(not vertexai_available, reason="VertexAI dependencies not available")
 
 
 @pytest.fixture

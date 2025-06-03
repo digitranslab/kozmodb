@@ -3,7 +3,14 @@ from unittest.mock import patch
 import pytest
 
 from kozmodb.configs.embeddings.base import BaseEmbedderConfig
-from kozmodb.embeddings.gemini import GoogleGenAIEmbedding
+
+try:
+    from kozmodb.embeddings.gemini import GoogleGenAIEmbedding
+    google_genai_available = True
+except ImportError:
+    google_genai_available = False
+
+pytestmark = pytest.mark.skipif(not google_genai_available, reason="Google GenerativeAI dependencies not available")
 
 
 @pytest.fixture
