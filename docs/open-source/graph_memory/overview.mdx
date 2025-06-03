@@ -51,7 +51,7 @@ allowfullscreen
 
 To initialize Graph Memory you'll need to set up your configuration with graph
 store providers. Currently, we support [Neo4j](#initialize-neo4j) and
-[Memgraph](#initialize-memgraph) as graph store providers. 
+[Kozmograph](#initialize-kozmograph) as graph store providers.
 
 
 ### Initialize Neo4j
@@ -171,19 +171,19 @@ const memory = new Memory(config);
 If you are using NodeSDK, you need to pass `enableGraph` as `true` in the `config` object.
 </Note>
 
-### Initialize Memgraph
+### Initialize Kozmograph
 
-Run Memgraph with Docker:
+Run Kozmograph with Docker:
 
 ```bash
-docker run -p 7687:7687 memgraph/memgraph-mage:latest --schema-info-enabled=True
+docker run -p 7687:7687 kozmograph/kozmograph-mage:latest --schema-info-enabled=True
 ```
 
 The `--schema-info-enabled` flag is set to `True` for more performant schema
 generation.
 
-Additional information can be found on [Memgraph
-documentation](https://memgraph.com/docs). 
+Additional information can be found on [Kozmograph
+documentation](https://kozmograph.com/docs).
 
 User can also customize the LLM for Graph Memory from the [Supported LLM list](https://docs.kozmodb.ai/components/llms/overview) with three levels of configuration:
 
@@ -200,10 +200,10 @@ from kozmodb import Memory
 
 config = {
     "graph_store": {
-        "provider": "memgraph",
+        "provider": "kozmograph",
         "config": {
             "url": "bolt://localhost:7687",
-            "username": "memgraph",
+            "username": "kozmograph",
             "password": "xxx",
         },
     },
@@ -219,10 +219,10 @@ config = {
         "config": {"model": "text-embedding-3-large", "embedding_dims": 1536},
     },
     "graph_store": {
-        "provider": "memgraph",
+        "provider": "kozmograph",
         "config": {
             "url": "bolt://localhost:7687",
-            "username": "memgraph",
+            "username": "kozmograph",
             "password": "xxx"
         }
     }

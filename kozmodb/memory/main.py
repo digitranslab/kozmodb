@@ -21,7 +21,7 @@ from kozmodb.configs.prompts import (
     get_update_memory_messages,
 )
 from kozmodb.memory.base import MemoryBase
-from kozmodb.memory.setup import mem0_dir, setup_config
+from kozmodb.memory.setup import kozmodb_dir, setup_config
 from kozmodb.memory.storage import SQLiteManager
 from kozmodb.memory.telemetry import capture_event
 from kozmodb.memory.utils import (
@@ -131,8 +131,8 @@ class Memory(MemoryBase):
         self.enable_graph = False
 
         if self.config.graph_store.config:
-            if self.config.graph_store.provider == "memgraph":
-                from kozmodb.memory.memgraph_memory import MemoryGraph
+            if self.config.graph_store.provider == "kozmograph":
+                from kozmodb.memory.kozmograph_memory import MemoryGraph
             else:
                 from kozmodb.memory.graph_memory import MemoryGraph
 
@@ -140,10 +140,10 @@ class Memory(MemoryBase):
             self.enable_graph = True
         else:
             self.graph = None
-        self.config.vector_store.config.collection_name = "mem0migrations"
+        self.config.vector_store.config.collection_name = "kozmodbmigrations"
         if self.config.vector_store.provider in ["faiss", "qdrant"]:
             provider_path = f"migrations_{self.config.vector_store.provider}"
-            self.config.vector_store.config.path = os.path.join(mem0_dir, provider_path)
+            self.config.vector_store.config.path = os.path.join(kozmodb_dir, provider_path)
             os.makedirs(self.config.vector_store.config.path, exist_ok=True)
         self._telemetry_vector_store = VectorStoreFactory.create(
             self.config.vector_store.provider, self.config.vector_store.config

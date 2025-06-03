@@ -6,7 +6,7 @@ import { generateText, LanguageModelV1Prompt } from "ai";
 import { testConfig } from "../../config/test-config";
 import { createAnthropic } from "@ai-sdk/anthropic";
 
-describe("ANTHROPIC MEM0 Tests", () => {
+describe("ANTHROPIC KOZMODB Tests", () => {
   const { userId } = testConfig;
   jest.setTimeout(30000);
 
@@ -16,7 +16,7 @@ describe("ANTHROPIC MEM0 Tests", () => {
     kozmodb = createKozmodb({
       provider: "anthropic",
       apiKey: process.env.ANTHROPIC_API_KEY,
-      mem0Config: {
+      kozmodbConfig: {
         user_id: userId
       }
     });

@@ -69,7 +69,7 @@ class MemoryClient:
 
         Args:
             api_key: The API key for authenticating with the Kozmodb API. If not provided,
-                     it will attempt to use the MEM0_API_KEY environment variable.
+                     it will attempt to use the KOZMODB_API_KEY environment variable.
             host: The base URL for the Kozmodb API. Defaults to "https://api.kozmodb.ai".
             org_id: The ID of the organization.
             project_id: The ID of the project.
@@ -79,7 +79,7 @@ class MemoryClient:
         Raises:
             ValueError: If no API key is provided or found in the environment.
         """
-        self.api_key = api_key or os.getenv("MEM0_API_KEY")
+        self.api_key = api_key or os.getenv("KOZMODB_API_KEY")
         self.host = host or "https://api.kozmodb.ai"
         self.org_id = org_id
         self.project_id = project_id
@@ -729,7 +729,7 @@ class AsyncMemoryClient:
 
         Args:
             api_key: The API key for authenticating with the Kozmodb API. If not provided,
-                     it will attempt to use the MEM0_API_KEY environment variable.
+                     it will attempt to use the KOZMODB_API_KEY environment variable.
             host: The base URL for the Kozmodb API. Defaults to "https://api.kozmodb.ai".
             org_id: The ID of the organization.
             project_id: The ID of the project.
@@ -740,7 +740,7 @@ class AsyncMemoryClient:
         Raises:
             ValueError: If no API key is provided or found in the environment.
         """
-        self.api_key = api_key or os.getenv("MEM0_API_KEY")
+        self.api_key = api_key or os.getenv("KOZMODB_API_KEY")
         self.host = host or "https://api.kozmodb.ai"
         self.org_id = org_id
         self.project_id = project_id

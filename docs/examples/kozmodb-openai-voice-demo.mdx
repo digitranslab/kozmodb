@@ -56,13 +56,13 @@ from kozmodb import AsyncMemoryClient
 
 # Set up API keys (replace with your actual keys)
 os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
-os.environ["MEM0_API_KEY"] = "your-kozmodb-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-kozmodb-api-key"
 
 # Define a global user ID for simplicity
 USER_ID = "voice_user"
 
 # Initialize Kozmodb client
-mem0_client = AsyncMemoryClient()
+kozmodb_client = AsyncMemoryClient()
 ```
 
 This section handles:
@@ -99,7 +99,7 @@ async def save_memories(
     
     # Store the preference in Kozmodb
     memory_content = f"User memory - {memory}"
-    await mem0_client.add(
+    await kozmodb_client.add(
         memory_content,
         user_id=USER_ID,
     )
@@ -127,7 +127,7 @@ async def search_memories(
         query: The search query to find relevant memories
     """
     print(f"Finding memories related to: {query}")
-    results = await mem0_client.search(
+    results = await kozmodb_client.search(
         query,
         user_id=USER_ID,
         limit=5,
@@ -254,7 +254,7 @@ async def main():
             # Save the agent's response to memory
             if agent_response:
                 try:
-                    await mem0_client.add(
+                    await kozmodb_client.add(
                         f"Agent response: {agent_response}", 
                         user_id=USER_ID,
                         metadata={"type": "agent_response"}
@@ -304,13 +304,13 @@ from kozmodb import AsyncMemoryClient
 
 # Set up API keys (replace with your actual keys)
 os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
-os.environ["MEM0_API_KEY"] = "your-kozmodb-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-kozmodb-api-key"
 
 # Define a global user ID for simplicity
 USER_ID = "voice_user"
 
 # Initialize Kozmodb client
-mem0_client = AsyncMemoryClient()
+kozmodb_client = AsyncMemoryClient()
 
 # Create tools that utilize Kozmodb's memory
 @function_tool
@@ -326,7 +326,7 @@ async def save_memories(
 
     # Store the preference in Kozmodb
     memory_content = f"User memory - {memory}"
-    await mem0_client.add(
+    await kozmodb_client.add(
         memory_content,
         user_id=USER_ID,
     )
@@ -343,7 +343,7 @@ async def search_memories(
         query: The search query to find relevant memories
     """
     print(f"Finding memories related to: {query}")
-    results = await mem0_client.search(
+    results = await kozmodb_client.search(
         query,
         user_id=USER_ID,
         limit=5,
@@ -451,7 +451,7 @@ async def main():
             # Example of saving the conversation to Kozmodb after completion
             if agent_response:
                 try:
-                    await mem0_client.add(
+                    await kozmodb_client.add(
                         f"Agent response: {agent_response}", 
                         user_id=USER_ID,
                         metadata={"type": "agent_response"}

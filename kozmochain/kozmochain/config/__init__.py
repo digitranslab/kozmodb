@@ -8,7 +8,7 @@ from .embedder.base import BaseEmbedderConfig
 from .embedder.base import BaseEmbedderConfig as EmbedderConfig
 from .embedder.ollama import OllamaEmbedderConfig
 from .llm.base import BaseLlmConfig
-from .mem0_config import KozmodbConfig
+from .kozmodb_config import KozmodbConfig
 from .vector_db.chroma import ChromaDbConfig
 from .vector_db.elasticsearch import ElasticsearchDBConfig
 from .vector_db.opensearch import OpenSearchDBConfig

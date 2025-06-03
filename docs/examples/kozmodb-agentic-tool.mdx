@@ -21,14 +21,14 @@ You'll also need a custom agents framework for this implementation.
 Store your Kozmodb API key as an environment variable:
 
 ```bash
-export MEM0_API_KEY="your_mem0_api_key"
+export KOZMODB_API_KEY="your_kozmodb_api_key"
 ```
 
 Or in your Python script:
 
 ```python
 import os
-os.environ["MEM0_API_KEY"] = "your_mem0_api_key"
+os.environ["KOZMODB_API_KEY"] = "your_kozmodb_api_key"
 ```
 
 ## Code Structure
@@ -75,7 +75,7 @@ class KozmodbContext(BaseModel):
 ### 3. Initialize the Kozmodb Client
 
 ```python
-client = AsyncMemoryClient(api_key=os.getenv("MEM0_API_KEY"))
+client = AsyncMemoryClient(api_key=os.getenv("KOZMODB_API_KEY"))
 ```
 
 ### 4. Create Memory Tools

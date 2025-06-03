@@ -9,7 +9,7 @@ from kozmochain.config import BaseLlmConfig
 from kozmochain.config.llm.base import (
     DEFAULT_PROMPT,
     DEFAULT_PROMPT_WITH_HISTORY_TEMPLATE,
-    DEFAULT_PROMPT_WITH_MEM0_MEMORY_TEMPLATE,
+    DEFAULT_PROMPT_WITH_KOZMODB_MEMORY_TEMPLATE,
     DOCS_SITE_PROMPT_TEMPLATE,
 )
 from kozmochain.constants import SQLITE_PATH
@@ -127,7 +127,7 @@ class BaseLlm(JSONSerializable):
             ):
                 if memories:
                     # swap in the template with Kozmodb memory template
-                    prompt = DEFAULT_PROMPT_WITH_MEM0_MEMORY_TEMPLATE.substitute(
+                    prompt = DEFAULT_PROMPT_WITH_KOZMODB_MEMORY_TEMPLATE.substitute(
                         context=context_string,
                         query=input_query,
                         history=self._format_history(),

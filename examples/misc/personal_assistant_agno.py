@@ -3,7 +3,7 @@ Create your personal AI Assistant powered by memory that supports both text and 
 
 In order to run this file, you need to set up your Kozmodb API at Kozmodb platform and also need a OpenAI API key.
 export OPENAI_API_KEY="your_openai_api_key"
-export MEM0_API_KEY="your_mem0_api_key"
+export KOZMODB_API_KEY="your_kozmodb_api_key"
 """
 
 import base64

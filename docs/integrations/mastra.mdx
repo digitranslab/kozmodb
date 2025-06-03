@@ -27,7 +27,7 @@ Set up your environment variables:
 <Note>Remember to get the Kozmodb API key from [Kozmodb Platform](https://app.kozmodb.ai).</Note>
 
 ```bash
-MEM0_API_KEY=your-kozmodb-api-key
+KOZMODB_API_KEY=your-kozmodb-api-key
 OPENAI_API_KEY=your-openai-api-key
 ```
 
@@ -45,7 +45,7 @@ import { z } from 'zod';
 // Initialize Kozmodb integration
 const kozmodb = new KozmodbIntegration({
   config: {
-    apiKey: process.env.MEM0_API_KEY || '',
+    apiKey: process.env.KOZMODB_API_KEY || '',
     user_id: 'alice', // Unique user identifier
   },
 });
@@ -57,7 +57,7 @@ Set up tools for memorizing and remembering information:
 
 ```typescript
 // Tool for remembering saved memories
-const mem0RememberTool = createTool({
+const kozmodbRememberTool = createTool({
   id: 'Kozmodb-remember',
   description: "Remember your agent memories that you've previously saved using the Kozmodb-memorize tool.",
   inputSchema: z.object({
@@ -78,7 +78,7 @@ const mem0RememberTool = createTool({
 });
 
 // Tool for saving new memories
-const mem0MemorizeTool = createTool({
+const kozmodbMemorizeTool = createTool({
   id: 'Kozmodb-memorize',
   description: 'Save information to kozmodb so you can remember it later using the Kozmodb-remember tool.',
   inputSchema: z.object({
@@ -101,7 +101,7 @@ Initialize an agent with memory tools and clear instructions:
 
 ```typescript
 // Create an agent with memory tools
-const mem0Agent = new Agent({
+const kozmodbAgent = new Agent({
   name: 'Kozmodb Agent',
   instructions: `
     You are a helpful assistant that has the ability to memorize and remember facts using Kozmodb.
@@ -109,7 +109,7 @@ const mem0Agent = new Agent({
     Use the Kozmodb-remember tool to recall previously saved information when answering questions.
   `,
   model: openai('gpt-4o'),
-  tools: { mem0RememberTool, mem0MemorizeTool },
+  tools: { kozmodbRememberTool, kozmodbMemorizeTool },
 });
 ```
 

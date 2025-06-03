@@ -30,7 +30,7 @@ Configure your environment variables:
 AGENT_ID=your-agent-id
 USER_ID=unique-user-identifier
 ELEVENLABS_API_KEY=your-elevenlabs-api-key
-MEM0_API_KEY=your-kozmodb-api-key
+KOZMODB_API_KEY=your-kozmodb-api-key
 ```
 
 ## Integration Code Breakdown
@@ -68,7 +68,7 @@ def main():
     AGENT_ID = os.environ.get('AGENT_ID')
     USER_ID = os.environ.get('USER_ID')
     API_KEY = os.environ.get('ELEVENLABS_API_KEY')
-    MEM0_API_KEY = os.environ.get('MEM0_API_KEY')
+    KOZMODB_API_KEY = os.environ.get('KOZMODB_API_KEY')
 
     # Validate required environment variables
     if not AGENT_ID:
@@ -82,12 +82,12 @@ def main():
     if not API_KEY:
         sys.stderr.write("ELEVENLABS_API_KEY not set, assuming the agent is public\n")
 
-    if not MEM0_API_KEY:
-        sys.stderr.write("MEM0_API_KEY environment variable must be set\n")
+    if not KOZMODB_API_KEY:
+        sys.stderr.write("KOZMODB_API_KEY environment variable must be set\n")
         sys.exit(1)
 
     # Set up Kozmodb API key in the environment
-    os.environ['MEM0_API_KEY'] = MEM0_API_KEY
+    os.environ['KOZMODB_API_KEY'] = KOZMODB_API_KEY
 ```
 
 This section:
@@ -106,7 +106,7 @@ Initialize both the ElevenLabs and Kozmodb clients:
 
     # Initialize memory client and tools
     client_tools = ClientTools()
-    mem0_client = AsyncMemoryClient()
+    kozmodb_client = AsyncMemoryClient()
 ```
 
 Here we:
@@ -123,7 +123,7 @@ Define the two key memory functions that will be registered as tools:
     async def add_memories(parameters):
         """Add a message to the memory store"""
         message = parameters.get("message")
-        await mem0_client.add(
+        await kozmodb_client.add(
             messages=message, 
             user_id=USER_ID, 
             output_format="v1.1", 
@@ -145,7 +145,7 @@ Define the two key memory functions that will be registered as tools:
         }
 
         # Search for relevant memories using the message as a query
-        results = await mem0_client.search(
+        results = await kozmodb_client.search(
             query=message,
             version="v2", 
             filters=filters

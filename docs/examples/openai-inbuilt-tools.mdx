@@ -19,7 +19,7 @@ npm install kozmodb openai zod
 Save your Kozmodb and OpenAI API keys in a `.env` file:
 
 ```
-MEM0_API_KEY=your_mem0_api_key
+KOZMODB_API_KEY=your_kozmodb_api_key
 OPENAI_API_KEY=your_openai_api_key
 ```
 
@@ -28,13 +28,13 @@ Get your Kozmodb API key from the [Kozmodb Dashboard](https://app.kozmodb.ai/das
 ### Configuration
 
 ```javascript
-const mem0Config = {
-    apiKey: process.env.MEM0_API_KEY,
+const kozmodbConfig = {
+    apiKey: process.env.KOZMODB_API_KEY,
     user_id: "sample-user",
 };
 
 const openAIClient = new OpenAI();
-const mem0Client = new MemoryClient(mem0Config);
+const kozmodbClient = new MemoryClient(kozmodbConfig);
 ```
 
 ### Adding Memories
@@ -43,14 +43,14 @@ Store user preferences, past interactions, or any relevant information:
 <CodeGroup>
 ```javascript JavaScript
 async function addUserPreferences() {
-    const mem0Client = new MemoryClient(mem0Config);
+    const kozmodbClient = new MemoryClient(kozmodbConfig);
     
     const userPreferences = "I Love BMW, Audi and Porsche. I Hate Mercedes. I love Red cars and Maroon cars. I have a budget of 120K to 150K USD. I like Audi the most.";
     
-    await mem0Client.add([{
+    await kozmodbClient.add([{
         role: "user",
         content: userPreferences,
-    }], mem0Config);
+    }], kozmodbConfig);
 }
 
 await addUserPreferences();
@@ -91,7 +91,7 @@ await addUserPreferences();
 Search for relevant memories based on the current user input:
 
 ```javascript
-const relevantMemories = await mem0Client.search(userInput, mem0Config);
+const relevantMemories = await kozmodbClient.search(userInput, kozmodbConfig);
 ```
 
 ### Structured Responses with Zod
@@ -152,8 +152,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const mem0Config = {
-    apiKey: process.env.MEM0_API_KEY,
+const kozmodbConfig = {
+    apiKey: process.env.KOZMODB_API_KEY,
     user_id: "sample-user",
 };
 
@@ -185,22 +185,22 @@ const Cars = z.object({
 
 async function main(memory = false) {
   const openAIClient = new OpenAI();
-  const mem0Client = new MemoryClient(mem0Config);
+  const kozmodbClient = new MemoryClient(kozmodbConfig);
 
   const input = "Suggest me some cars that I can buy today.";
 
   const tool = zodResponsesFunction({ name: "carRecommendations", parameters: Cars });
 
   // Store the user input as a memory
-  await mem0Client.add([{
+  await kozmodbClient.add([{
     role: "user",
     content: input,
-  }], mem0Config);
+  }], kozmodbConfig);
 
   // Search for relevant memories
   let relevantMemories = []
   if (memory) {
-    relevantMemories = await mem0Client.search(input, mem0Config);
+    relevantMemories = await kozmodbClient.search(input, kozmodbConfig);
   }
 
   const response = await openAIClient.responses.create({
@@ -213,14 +213,14 @@ async function main(memory = false) {
 }
 
 async function addSampleMemories() {
-  const mem0Client = new MemoryClient(mem0Config);
+  const kozmodbClient = new MemoryClient(kozmodbConfig);
 
   const myInterests = "I Love BMW, Audi and Porsche. I Hate Mercedes. I love Red cars and Maroon cars. I have a budget of 120K to 150K USD. I like Audi the most.";
   
-  await mem0Client.add([{
+  await kozmodbClient.add([{
     role: "user",
     content: myInterests,
-  }], mem0Config);
+  }], kozmodbConfig);
 }
 
 const getMemoryString = (memories) => {

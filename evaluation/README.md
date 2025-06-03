@@ -9,7 +9,7 @@ This repository contains the code and dataset for our paper: **Kozmodb: Building
 
 This project evaluates Kozmodb and compares it with different memory and retrieval techniques for AI systems:
 
-1. **Established LOCOMO Benchmarks**: We evaluate against five established approaches from the literature: LoCoMo, ReadAgent, MemoryBank, MemGPT, and A-Mem.
+1. **Established LOCOMO Benchmarks**: We evaluate against five established approaches from the literature: LoCoMo, ReadAgent, MemoryBank, KozmoGPT, and A-Mem.
 2. **Open-Source Memory Solutions**: We test promising open-source memory architectures including LangMem, which provides flexible memory management capabilities.
 3. **RAG Systems**: We implement Retrieval-Augmented Generation with various configurations, testing different chunk sizes and retrieval counts to optimize performance.
 4. **Full-Context Processing**: We examine the effectiveness of passing the entire conversation history within the context window of the LLM as a baseline approach.
@@ -60,9 +60,9 @@ Create a `.env` file with your API keys and configurations. The following keys a
 OPENAI_API_KEY="your-openai-api-key"
 
 # Kozmodb API keys (for Kozmodb and Kozmodb+ techniques)
-MEM0_API_KEY="your-kozmodb-api-key"
-MEM0_PROJECT_ID="your-kozmodb-project-id"
-MEM0_ORGANIZATION_ID="your-kozmodb-organization-id"
+KOZMODB_API_KEY="your-kozmodb-api-key"
+KOZMODB_PROJECT_ID="your-kozmodb-project-id"
+KOZMODB_ORGANIZATION_ID="your-kozmodb-organization-id"
 
 # Model configuration
 MODEL="gpt-4o-mini"  # or your preferred model

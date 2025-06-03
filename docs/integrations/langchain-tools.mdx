@@ -29,7 +29,7 @@ from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
 import os
 
-os.environ["MEM0_API_KEY"] = "your-api-key"
+os.environ["KOZMODB_API_KEY"] = "your-api-key"
 
 client = MemoryClient(
     org_id=your_org_id,

@@ -29,7 +29,7 @@ const GlobalContext = createContext<GlobalContextType>({} as GlobalContextType);
 
 const GlobalState = (props: { children: React.ReactNode }) => {
   const {
-    mem0ApiKey: selectedKozmodbKey,
+    kozmodbApiKey: selectedKozmodbKey,
     openaiApiKey: selectedOpenAIKey,
     provider: selectedProvider,
     user: selectedUser,
@@ -55,7 +55,7 @@ const GlobalState = (props: { children: React.ReactNode }) => {
     sendMessage,
   } = useChat({
     user: selectedUser,
-    mem0ApiKey: selectedKozmodbKey,
+    kozmodbApiKey: selectedKozmodbKey,
     openaiApiKey: selectedOpenAIKey,
     provider: selectedProvider,
   });

@@ -7,9 +7,9 @@ import type {
 let version = "2.1.26";
 
 // Safely check for process.env in different environments
-let MEM0_TELEMETRY = true;
+let KOZMODB_TELEMETRY = true;
 try {
-  MEM0_TELEMETRY = process?.env?.MEM0_TELEMETRY === "false" ? false : true;
+  KOZMODB_TELEMETRY = process?.env?.KOZMODB_TELEMETRY === "false" ? false : true;
 } catch (error) {}
 const POSTHOG_API_KEY = "phc_hgJkUVJFYtmaJqrvf6CYN67TIQ8yhXAkWzUn9AMU4yX";
 const POSTHOG_HOST = "https://us.i.posthog.com/i/v0/e/";
@@ -24,7 +24,7 @@ class UnifiedTelemetry implements TelemetryClient {
   }
 
   async captureEvent(distinctId: string, eventName: string, properties = {}) {
-    if (!MEM0_TELEMETRY) return;
+    if (!KOZMODB_TELEMETRY) return;
 
     const eventProperties = {
       client_version: version,

@@ -10,7 +10,7 @@ const defaultConfig = {
 };
 
 // Initialize KozmodbAI client
-let mem0client = null;
+let kozmodbclient = null;
 
 // Initialize when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", init);
@@ -60,15 +60,15 @@ async function init() {
 async function initializeKozmodbAI() {
   try {
     const response = await chrome.runtime.sendMessage({ action: "getConfig" });
-    const mem0ApiKey = response.config.mem0ApiKey;
+    const kozmodbApiKey = response.config.kozmodbApiKey;
 
-    if (!mem0ApiKey) {
+    if (!kozmodbApiKey) {
       showMemoriesError("Please configure your Kozmodb API key in the popup");
       return false;
     }
 
-    mem0client = new MemoryClient({
-      apiKey: mem0ApiKey,
+    kozmodbclient = new MemoryClient({
+      apiKey: kozmodbApiKey,
       projectId: "youtube-assistant",
       isExtension: true,
     });
@@ -178,12 +178,12 @@ let currentMemory = null;
 
 async function fetchMemories() {
   try {
-    if (!mem0client) {
+    if (!kozmodbclient) {
       const initialized = await initializeKozmodbAI();
       if (!initialized) return;
     }
 
-    const memories = await mem0client.getAll({
+    const memories = await kozmodbclient.getAll({
       user_id: "youtube-assistant-kozmodb",
       page: 1,
       page_size: 50,
@@ -257,12 +257,12 @@ async function deleteAllMemories() {
   }
 
   try {
-    if (!mem0client) {
+    if (!kozmodbclient) {
       const initialized = await initializeKozmodbAI();
       if (!initialized) return;
     }
 
-    await mem0client.deleteAll({
+    await kozmodbclient.deleteAll({
       user_id: "youtube-assistant-kozmodb",
     });
     showStatus("All memories deleted successfully", "success");
@@ -291,7 +291,7 @@ async function saveMemory() {
   if (!currentMemory) return;
 
   try {
-    if (!mem0client) {
+    if (!kozmodbclient) {
       const initialized = await initializeKozmodbAI();
       if (!initialized) return;
     }
@@ -304,7 +304,7 @@ async function saveMemory() {
       return;
     }
 
-    await mem0client.update(currentMemory.id, updatedMemory);
+    await kozmodbclient.update(currentMemory.id, updatedMemory);
 
     showStatus("Memory updated successfully", "success");
     closeEditModal();
@@ -325,12 +325,12 @@ async function deleteMemory(memoryId) {
   }
 
   try {
-    if (!mem0client) {
+    if (!kozmodbclient) {
       const initialized = await initializeKozmodbAI();
       if (!initialized) return;
     }
 
-    await mem0client.delete(memoryId);
+    await kozmodbclient.delete(memoryId);
     showStatus("Memory deleted successfully", "success");
     await fetchMemories();
   } catch (error) {
@@ -392,12 +392,12 @@ async function addMemory() {
   memoryResult.style.display = "none";
 
   try {
-    if (!mem0client) {
+    if (!kozmodbclient) {
       const initialized = await initializeKozmodbAI();
       if (!initialized) return;
     }
 
-    const result = await mem0client.add(
+    const result = await kozmodbclient.add(
       [
         {
           role: "user",

@@ -22,7 +22,7 @@ export interface KozmodbConfigSettings {
   infer?: boolean;
   page?: number;
   page_size?: number;
-  mem0ApiKey?: string;
+  kozmodbApiKey?: string;
   top_k?: number;
   threshold?: number;
   rerank?: boolean;

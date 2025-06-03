@@ -63,7 +63,7 @@ class KozmoChain(JSONSerializable):
         self.config = config
         self.cache_config = None
         self.memory_config = None
-        self.mem0_memory = None
+        self.kozmodb_memory = None
         # Llm
         self.llm = llm
         # Database has support for config assignment for backwards compatibility
@@ -609,8 +609,8 @@ class KozmoChain(JSONSerializable):
             contexts_data_for_llm_query = contexts
 
         memories = None
-        if self.mem0_memory:
-            memories = self.mem0_memory.search(
+        if self.kozmodb_memory:
+            memories = self.kozmodb_memory.search(
                 query=input_query, agent_id=self.config.id, user_id=session_id, limit=self.memory_config.top_k
             )
 
@@ -651,8 +651,8 @@ class KozmoChain(JSONSerializable):
 
         # Add to Kozmodb memory if enabled
         # Adding answer here because it would be much useful than input question itself
-        if self.mem0_memory:
-            self.mem0_memory.add(data=answer, agent_id=self.config.id, user_id=session_id)
+        if self.kozmodb_memory:
+            self.kozmodb_memory.add(data=answer, agent_id=self.config.id, user_id=session_id)
 
         # add conversation in memory
         self.llm.add_history(self.config.id, input_query, answer, session_id=session_id)

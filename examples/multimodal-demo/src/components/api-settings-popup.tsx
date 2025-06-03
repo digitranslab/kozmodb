@@ -8,14 +8,14 @@ import GlobalContext from '@/contexts/GlobalContext'
 import { Provider } from '@/constants/messages'
 export default function ApiSettingsPopup(props: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
   const {isOpen, setIsOpen} = props
-  const [mem0ApiKey, setKozmodbApiKey] = useState('')
+  const [kozmodbApiKey, setKozmodbApiKey] = useState('')
   const [providerApiKey, setProviderApiKey] = useState('')
   const [provider, setProvider] = useState('OpenAI')
   const { selectorHandler, selectedOpenAIKey, selectedKozmodbKey, selectedProvider } = useContext(GlobalContext);
 
   const handleSave = () => {
     // Here you would typically save the settings to your backend or local storage
-    selectorHandler(mem0ApiKey, providerApiKey, provider as Provider);
+    selectorHandler(kozmodbApiKey, providerApiKey, provider as Provider);
     setIsOpen(false)
   }
 
@@ -47,7 +47,7 @@ export default function ApiSettingsPopup(props: { isOpen: boolean, setIsOpen: Di
               </Label>
               <Input
                 id="kozmodb-api-key"
-                value={mem0ApiKey}
+                value={kozmodbApiKey}
                 onChange={(e) => setKozmodbApiKey(e.target.value)}
                 className="col-span-3 rounded-3xl"
               />

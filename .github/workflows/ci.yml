@@ -17,7 +17,7 @@ jobs:
   check_changes:
     runs-on: ubuntu-latest
     outputs:
-      mem0_changed: ${{ steps.filter.outputs.kozmodb }}
+      kozmodb_changed: ${{ steps.filter.outputs.kozmodb }}
       kozmochain_changed: ${{ steps.filter.outputs.kozmochain }}
     steps:
     - uses: actions/checkout@v3
@@ -31,9 +31,9 @@ jobs:
           kozmochain:
             - 'kozmochain/**'
 
-  build_mem0:
+  build_kozmodb:
     needs: check_changes
-    if: needs.check_changes.outputs.mem0_changed == 'true'
+#    if: needs.check_changes.outputs.kozmodb_changed == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -57,7 +57,7 @@ jobs:
           make install_all
           pip install -e ".[test]"
           pip install pinecone pinecone-text
-        if: steps.cached-hatch-dependencies.outputs.cache-hit != 'true'
+#        if: steps.cached-hatch-dependencies.outputs.cache-hit != 'true'
       - name: Run Formatting
         run: |
           mkdir -p .ruff_cache && chmod -R 777 .ruff_cache
@@ -67,7 +67,7 @@ jobs:
 
   build_kozmochain:
     needs: check_changes
-    if: needs.check_changes.outputs.kozmochain_changed == 'true'
+#    if: needs.check_changes.outputs.kozmochain_changed == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:

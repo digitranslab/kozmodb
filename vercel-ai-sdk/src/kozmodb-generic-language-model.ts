@@ -30,10 +30,10 @@ export class KozmodbGenericLanguageModel implements LanguageModelV1 {
 
   provider: string;
 
-  private async processMemories(messagesPrompts: LanguageModelV1Message[], mem0Config: KozmodbConfigSettings) {
+  private async processMemories(messagesPrompts: LanguageModelV1Message[], kozmodbConfig: KozmodbConfigSettings) {
     try {
     // Add New Memories
-    addMemories(messagesPrompts, mem0Config).then((res) => {
+    addMemories(messagesPrompts, kozmodbConfig).then((res) => {
       return res;
     }).catch((e) => {
       console.error("Error while adding memories");
@@ -41,11 +41,11 @@ export class KozmodbGenericLanguageModel implements LanguageModelV1 {
     });
 
     // Get Memories
-    let memories = await getMemories(messagesPrompts, mem0Config);
+    let memories = await getMemories(messagesPrompts, kozmodbConfig);
 
     const mySystemPrompt = "These are the memories I have stored. Give more weightage to the question by users and try to answer that first. You have to modify your answer based on the memories I have provided. If the memories are irrelevant you can ignore them. Also don't reply to this section of the prompt, or the memories, they are only for your reference. The System prompt starts after text System Message: \n\n";
 
-    const isGraphEnabled = mem0Config?.enable_graph;
+    const isGraphEnabled = kozmodbConfig?.enable_graph;
   
     let memoriesText = "";
     let memoriesText2 = "";
@@ -100,17 +100,17 @@ export class KozmodbGenericLanguageModel implements LanguageModelV1 {
   async doGenerate(options: LanguageModelV1CallOptions): Promise<Awaited<ReturnType<LanguageModelV1['doGenerate']>>> {
     try {   
       const provider = this.config.provider;
-      const mem0_api_key = this.config.mem0ApiKey;
+      const kozmodb_api_key = this.config.kozmodbApiKey;
       
       const settings: KozmodbProviderSettings = {
         provider: provider,
-        mem0ApiKey: mem0_api_key,
+        kozmodbApiKey: kozmodb_api_key,
         apiKey: this.config.apiKey,
       }
 
-      const mem0Config: KozmodbConfigSettings = {
-        mem0ApiKey: mem0_api_key,
-        ...this.config.mem0Config,
+      const kozmodbConfig: KozmodbConfigSettings = {
+        kozmodbApiKey: kozmodb_api_key,
+        ...this.config.kozmodbConfig,
         ...this.settings,
       }
 
@@ -119,7 +119,7 @@ export class KozmodbGenericLanguageModel implements LanguageModelV1 {
       let messagesPrompts = options.prompt;
       
       // Process memories and update prompts
-      const { memories, messagesPrompts: updatedPrompts } = await this.processMemories(messagesPrompts, mem0Config);
+      const { memories, messagesPrompts: updatedPrompts } = await this.processMemories(messagesPrompts, kozmodbConfig);
       
       const model = selector.createProvider();
 
@@ -182,18 +182,18 @@ export class KozmodbGenericLanguageModel implements LanguageModelV1 {
   async doStream(options: LanguageModelV1CallOptions): Promise<Awaited<ReturnType<LanguageModelV1['doStream']>>> {
     try {
       const provider = this.config.provider;
-      const mem0_api_key = this.config.mem0ApiKey;
+      const kozmodb_api_key = this.config.kozmodbApiKey;
       
       const settings: KozmodbProviderSettings = {
         provider: provider,
-        mem0ApiKey: mem0_api_key,
+        kozmodbApiKey: kozmodb_api_key,
         apiKey: this.config.apiKey,
         modelType: this.config.modelType,
       }
 
-      const mem0Config: KozmodbConfigSettings = {
-        mem0ApiKey: mem0_api_key,
-        ...this.config.mem0Config,
+      const kozmodbConfig: KozmodbConfigSettings = {
+        kozmodbApiKey: kozmodb_api_key,
+        ...this.config.kozmodbConfig,
         ...this.settings,
       }
 
@@ -202,7 +202,7 @@ export class KozmodbGenericLanguageModel implements LanguageModelV1 {
       let messagesPrompts = options.prompt;
       
       // Process memories and update prompts
-      const { memories, messagesPrompts: updatedPrompts } = await this.processMemories(messagesPrompts, mem0Config);
+      const { memories, messagesPrompts: updatedPrompts } = await this.processMemories(messagesPrompts, kozmodbConfig);
 
       const model = selector.createProvider();
 

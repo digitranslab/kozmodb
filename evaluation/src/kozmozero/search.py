@@ -17,10 +17,10 @@ load_dotenv()
 
 class MemorySearch:
     def __init__(self, output_path="results.json", top_k=10, filter_memories=False, is_graph=False):
-        self.mem0_client = MemoryClient(
-            api_key=os.getenv("MEM0_API_KEY"),
-            org_id=os.getenv("MEM0_ORGANIZATION_ID"),
-            project_id=os.getenv("MEM0_PROJECT_ID"),
+        self.kozmodb_client = MemoryClient(
+            api_key=os.getenv("KOZMODB_API_KEY"),
+            org_id=os.getenv("KOZMODB_ORGANIZATION_ID"),
+            project_id=os.getenv("KOZMODB_PROJECT_ID"),
         )
         self.top_k = top_k
         self.openai_client = OpenAI()
@@ -41,7 +41,7 @@ class MemorySearch:
             try:
                 if self.is_graph:
                     print("Searching with graph")
-                    memories = self.mem0_client.search(
+                    memories = self.kozmodb_client.search(
                         query,
                         user_id=user_id,
                         top_k=self.top_k,
@@ -50,7 +50,7 @@ class MemorySearch:
                         output_format="v1.1",
                     )
                 else:
-                    memories = self.mem0_client.search(
+                    memories = self.kozmodb_client.search(
                         query, user_id=user_id, top_k=self.top_k, filter_memories=self.filter_memories
                     )
                 break

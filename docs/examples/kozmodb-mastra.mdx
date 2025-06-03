@@ -32,7 +32,7 @@ import { KozmodbIntegration } from "@mastra/kozmodb";
 
 export const kozmodb = new KozmodbIntegration({
   config: {
-    apiKey: process.env.MEM0_API_KEY!,
+    apiKey: process.env.KOZMODB_API_KEY!,
     userId: "alice",
   },
 });
@@ -47,7 +47,7 @@ import { createTool } from "@mastra/core";
 import { z } from "zod";
 import { kozmodb } from "../integrations";
 
-export const mem0RememberTool = createTool({
+export const kozmodbRememberTool = createTool({
   id: "Kozmodb-remember",
   description:
     "Remember your agent memories that you've previously saved using the Kozmodb-memorize tool.",
@@ -70,7 +70,7 @@ export const mem0RememberTool = createTool({
   },
 });
 
-export const mem0MemorizeTool = createTool({
+export const kozmodbMemorizeTool = createTool({
   id: "Kozmodb-memorize",
   description:
     "Save information to kozmodb so you can remember it later using the Kozmodb-remember tool.",
@@ -93,15 +93,15 @@ export const mem0MemorizeTool = createTool({
 ```typescript agents/index.ts
 import { openai } from '@ai-sdk/openai';
 import { Agent } from '@mastra/core/agent';
-import { mem0MemorizeTool, mem0RememberTool } from '../tools';
+import { kozmodbMemorizeTool, kozmodbRememberTool } from '../tools';
 
-export const mem0Agent = new Agent({
+export const kozmodbAgent = new Agent({
   name: 'Kozmodb Agent',
   instructions: `
     You are a helpful assistant that has the ability to memorize and remember facts using Kozmodb.
   `,
   model: openai('gpt-4o'),
-  tools: { mem0RememberTool, mem0MemorizeTool },
+  tools: { kozmodbRememberTool, kozmodbMemorizeTool },
 });
 ```
 
@@ -111,10 +111,10 @@ export const mem0Agent = new Agent({
 import { Mastra } from '@mastra/core/mastra';
 import { createLogger } from '@mastra/core/logger';
 
-import { mem0Agent } from './agents';
+import { kozmodbAgent } from './agents';
 
 export const mastra = new Mastra({
-  agents: { mem0Agent },
+  agents: { kozmodbAgent },
   logger: createLogger({
     name: 'Mastra',
     level: 'error',

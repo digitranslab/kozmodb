@@ -36,11 +36,11 @@ from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 # Configuration
 OPENAI_API_KEY = 'sk-xxx'  # Replace with your actual OpenAI API key
-MEM0_API_KEY = 'your-kozmodb-key'  # Replace with your actual Kozmodb API key
+KOZMODB_API_KEY = 'your-kozmodb-key'  # Replace with your actual Kozmodb API key
 
 # Initialize LangChain and Kozmodb
 llm = ChatOpenAI(model="gpt-4", api_key=OPENAI_API_KEY)
-kozmodb = MemoryClient(api_key=MEM0_API_KEY)
+kozmodb = MemoryClient(api_key=KOZMODB_API_KEY)
 ```
 
 ## Define State and Graph
@@ -50,7 +50,7 @@ Set up the conversation state and LangGraph structure:
 ```python
 class State(TypedDict):
     messages: Annotated[List[HumanMessage | AIMessage], add_messages]
-    mem0_user_id: str
+    kozmodb_user_id: str
 
 graph = StateGraph(State)
 ```
@@ -62,7 +62,7 @@ Define the core logic for the Customer Support AI Agent:
 ```python
 def chatbot(state: State):
     messages = state["messages"]
-    user_id = state["mem0_user_id"]
+    user_id = state["kozmodb_user_id"]
 
     # Retrieve relevant memories
     memories = kozmodb.search(messages[-1].content, user_id=user_id)
@@ -99,9 +99,9 @@ compiled_graph = graph.compile()
 Implement a function to manage the conversation flow:
 
 ```python
-def run_conversation(user_input: str, mem0_user_id: str):
-    config = {"configurable": {"thread_id": mem0_user_id}}
-    state = {"messages": [HumanMessage(content=user_input)], "mem0_user_id": mem0_user_id}
+def run_conversation(user_input: str, kozmodb_user_id: str):
+    config = {"configurable": {"thread_id": kozmodb_user_id}}
+    state = {"messages": [HumanMessage(content=user_input)], "kozmodb_user_id": kozmodb_user_id}
 
     for event in compiled_graph.stream(state, config):
         for value in event.values():
@@ -117,13 +117,13 @@ Set up the main program loop for user interaction:
 ```python
 if __name__ == "__main__":
     print("Welcome to Customer Support! How can I assist you today?")
-    mem0_user_id = "customer_123"  # You can generate or retrieve this based on your user management system
+    kozmodb_user_id = "customer_123"  # You can generate or retrieve this based on your user management system
     while True:
         user_input = input("You: ")
         if user_input.lower() in ['quit', 'exit', 'bye']:
             print("Customer Support: Thank you for contacting us. Have a great day!")
             break
-        run_conversation(user_input, mem0_user_id)
+        run_conversation(user_input, kozmodb_user_id)
 ```
 
 ## Key Features

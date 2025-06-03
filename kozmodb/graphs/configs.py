@@ -24,7 +24,7 @@ class Neo4jConfig(BaseModel):
         return values
 
 
-class MemgraphConfig(BaseModel):
+class KozmographConfig(BaseModel):
     url: Optional[str] = Field(None, description="Host address for the graph database")
     username: Optional[str] = Field(None, description="Username for the graph database")
     password: Optional[str] = Field(None, description="Password for the graph database")
@@ -54,7 +54,7 @@ class GraphStoreConfig(BaseModel):
         provider = values.data.get("provider")
         if provider == "neo4j":
             return Neo4jConfig(**v.model_dump())
-        elif provider == "memgraph":
-            return MemgraphConfig(**v.model_dump())
+        elif provider == "kozmograph":
+            return KozmographConfig(**v.model_dump())
         else:
             raise ValueError(f"Unsupported graph store provider: {provider}")

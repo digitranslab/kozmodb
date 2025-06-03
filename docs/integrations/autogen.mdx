@@ -27,12 +27,12 @@ from openai import OpenAI
 
 # Configuration
 OPENAI_API_KEY = 'sk-xxx'  # Replace with your actual OpenAI API key
-MEM0_API_KEY = 'your-kozmodb-key'  # Replace with your actual Kozmodb API key from https://app.kozmodb.ai
+KOZMODB_API_KEY = 'your-kozmodb-key'  # Replace with your actual Kozmodb API key from https://app.kozmodb.ai
 USER_ID = "customer_service_bot"
 
 # Set up OpenAI API key
 os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
-os.environ['MEM0_API_KEY'] = MEM0_API_KEY
+os.environ['KOZMODB_API_KEY'] = KOZMODB_API_KEY
 
 # Initialize Kozmodb and AutoGen agents
 memory_client = MemoryClient()

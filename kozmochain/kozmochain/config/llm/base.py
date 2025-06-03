@@ -51,7 +51,7 @@ Query: $query
 Answer:
 """  # noqa:E501
 
-DEFAULT_PROMPT_WITH_MEM0_MEMORY = """
+DEFAULT_PROMPT_WITH_KOZMODB_MEMORY = """
 You are an expert at answering questions based on provided memories. You are also provided with the context and conversation history of the user. Make sure to use relevant context from conversation history and context as needed.
 
 Here are some guidelines to follow:
@@ -100,7 +100,7 @@ Answer:
 
 DEFAULT_PROMPT_TEMPLATE = Template(DEFAULT_PROMPT)
 DEFAULT_PROMPT_WITH_HISTORY_TEMPLATE = Template(DEFAULT_PROMPT_WITH_HISTORY)
-DEFAULT_PROMPT_WITH_MEM0_MEMORY_TEMPLATE = Template(DEFAULT_PROMPT_WITH_MEM0_MEMORY)
+DEFAULT_PROMPT_WITH_KOZMODB_MEMORY_TEMPLATE = Template(DEFAULT_PROMPT_WITH_KOZMODB_MEMORY)
 DOCS_SITE_PROMPT_TEMPLATE = Template(DOCS_SITE_DEFAULT_PROMPT)
 query_re = re.compile(r"\$\{*query\}*")
 context_re = re.compile(r"\$\{*context\}*")

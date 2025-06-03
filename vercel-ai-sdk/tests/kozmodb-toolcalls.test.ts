@@ -18,16 +18,16 @@ describe("Tool Calls Tests", () => {
   });
 
   it("should Execute a Tool Call Using OpenAI", async () => {
-    const mem0OpenAI = createKozmodb({
+    const kozmodbOpenAI = createKozmodb({
       provider: "openai",
       apiKey: process.env.OPENAI_API_KEY,
-      mem0Config: {
+      kozmodbConfig: {
         user_id: userId,
       },
     });
 
     const result = await generateText({
-      model: mem0OpenAI("gpt-4o"),
+      model: kozmodbOpenAI("gpt-4o"),
       tools: {
         weather: tool({
           description: "Get the weather in a location",
@@ -54,16 +54,16 @@ describe("Tool Calls Tests", () => {
   });
 
   it("should Execute a Tool Call Using Anthropic", async () => {
-    const mem0Anthropic = createKozmodb({
+    const kozmodbAnthropic = createKozmodb({
       provider: "anthropic",
       apiKey: process.env.ANTHROPIC_API_KEY,
-      mem0Config: {
+      kozmodbConfig: {
         user_id: userId,
       },
     });
 
     const result = await generateText({
-      model: mem0Anthropic("claude-3-haiku-20240307"),
+      model: kozmodbAnthropic("claude-3-haiku-20240307"),
       tools: {
         weather: tool({
           description: "Get the weather in a location",

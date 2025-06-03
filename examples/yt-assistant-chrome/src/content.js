@@ -8,32 +8,32 @@ const config = {
   model: "gpt-4o",
   chatPosition: "right", // Where to display the chat panel
   autoExtract: true, // Automatically extract video context
-  mem0ApiKey: "", // Will be set through extension options
+  kozmodbApiKey: "", // Will be set through extension options
 };
 
 // Initialize KozmodbAI - will be initialized properly when API key is available
-let mem0client = null;
-let mem0Initializing = false;
+let kozmodbclient = null;
+let kozmodbInitializing = false;
 
 // Function to initialize KozmodbAI with API key from storage
 async function initializeKozmodbAI() {
-  if (mem0Initializing) return; // Prevent multiple simultaneous initialization attempts
-  mem0Initializing = true;
+  if (kozmodbInitializing) return; // Prevent multiple simultaneous initialization attempts
+  kozmodbInitializing = true;
 
   try {
     // Get API key from storage
-    const items = await chrome.storage.sync.get(["mem0ApiKey"]);
-    if (items.mem0ApiKey) {
+    const items = await chrome.storage.sync.get(["kozmodbApiKey"]);
+    if (items.kozmodbApiKey) {
       try {
         // Create new client instance with v2.1.11 configuration
-        mem0client = new MemoryClient({
-          apiKey: items.mem0ApiKey,
+        kozmodbclient = new MemoryClient({
+          apiKey: items.kozmodbApiKey,
           projectId: "youtube-assistant", // Add a project ID for organization
           isExtension: true,
         });
 
         // Set up custom instructions for the YouTube educational assistant
-        await mem0client.updateProject({
+        await kozmodbclient.updateProject({
           custom_instructions: `Your task: Create memories for a YouTube AI assistant. Focus on capturing:
 
 1. User's Knowledge & Experience:
@@ -80,7 +80,7 @@ Remember: The goal is to build a comprehensive understanding of both the user's 
     console.error("Error accessing storage:", error);
     return false;
   } finally {
-    mem0Initializing = false;
+    kozmodbInitializing = false;
   }
 }
 
@@ -453,11 +453,11 @@ async function sendMessage() {
   document.getElementById("ai-chat-messages").appendChild(loadingMessage);
 
   try {
-    // If mem0client is available, store the message as a memory and search for relevant memories
-    if (mem0client) {
+    // If kozmodbclient is available, store the message as a memory and search for relevant memories
+    if (kozmodbclient) {
       try {
         // Store the message as a memory
-        await mem0client.add(
+        await kozmodbclient.add(
           [
             {
               role: "user",
@@ -474,7 +474,7 @@ async function sendMessage() {
         );
 
         // Search for relevant memories
-        const searchResults = await mem0client.search(userMessage, {
+        const searchResults = await kozmodbclient.search(userMessage, {
           user_id: "youtube-assistant-kozmodb", // Required parameter
           limit: 5,
         });
@@ -617,7 +617,7 @@ async function loadMemories() {
       '<div class="loading">Loading memories...</div>';
 
     // If client isn't initialized, try to initialize it
-    if (!mem0client) {
+    if (!kozmodbclient) {
       const initialized = await initializeKozmodbAI();
       if (!initialized) {
         memoriesContainer.innerHTML =
@@ -626,7 +626,7 @@ async function loadMemories() {
       }
     }
 
-    const response = await mem0client.getAll({
+    const response = await kozmodbclient.getAll({
       user_id: "youtube-assistant-kozmodb",
       page: 1,
       page_size: 50,

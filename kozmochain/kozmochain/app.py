@@ -131,9 +131,9 @@ class App(KozmoChain):
             self._init_cache()
 
         # If memory_config is provided, initializing the memory ...
-        self.mem0_memory = None
+        self.kozmodb_memory = None
         if self.memory_config is not None:
-            self.mem0_memory = Memory()
+            self.kozmodb_memory = Memory()
 
         # Send anonymous telemetry
         self._telemetry_props = {"class": self.__class__.__name__}

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Provider } from '@/constants/messages';
 
 interface UseAuthReturn {
-  mem0ApiKey: string;
+  kozmodbApiKey: string;
   openaiApiKey: string;
   provider: Provider;
   user: string;
@@ -13,13 +13,13 @@ interface UseAuthReturn {
 }
 
 export const useAuth = (): UseAuthReturn => {
-  const [mem0ApiKey, setKozmodbApiKey] = useState<string>('');
+  const [kozmodbApiKey, setKozmodbApiKey] = useState<string>('');
   const [openaiApiKey, setOpenaiApiKey] = useState<string>('');
   const [provider, setProvider] = useState<Provider>('openai');
   const [user, setUser] = useState<string>('');
 
   useEffect(() => {
-    const kozmodb = localStorage.getItem('mem0ApiKey');
+    const kozmodb = localStorage.getItem('kozmodbApiKey');
     const openai = localStorage.getItem('openaiApiKey');
     const savedProvider = localStorage.getItem('provider') as Provider;
     const savedUser = localStorage.getItem('user');
@@ -36,13 +36,13 @@ export const useAuth = (): UseAuthReturn => {
     setKozmodbApiKey(kozmodb);
     setOpenaiApiKey(openai);
     setProvider(provider);
-    localStorage.setItem('mem0ApiKey', kozmodb);
+    localStorage.setItem('kozmodbApiKey', kozmodb);
     localStorage.setItem('openaiApiKey', openai);
     localStorage.setItem('provider', provider);
   };
 
   const clearAuth = () => {
-    localStorage.removeItem('mem0ApiKey');
+    localStorage.removeItem('kozmodbApiKey');
     localStorage.removeItem('openaiApiKey');
     localStorage.removeItem('provider');
     setKozmodbApiKey('');
@@ -61,7 +61,7 @@ export const useAuth = (): UseAuthReturn => {
   };
 
   return {
-    mem0ApiKey,
+    kozmodbApiKey,
     openaiApiKey,
     provider,
     user,

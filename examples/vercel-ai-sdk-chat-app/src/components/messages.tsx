@@ -4,7 +4,7 @@ import { Message } from "../types";
 import { useContext, useEffect, useRef } from "react";
 import GlobalContext from "@/contexts/GlobalContext";
 import Markdown from "react-markdown";
-import Kozmodb0Logo from "../assets/mem0_logo.jpeg";
+import Kozmodb0Logo from "../assets/kozmodb_logo.jpeg";
 import UserLogo from "../assets/user.jpg";
 
 const Messages = () => {

@@ -37,11 +37,11 @@ export interface KozmodbProviderSettings
    */
   headers?: Record<string, string>;
   name?: string;
-  mem0ApiKey?: string;
+  kozmodbApiKey?: string;
   apiKey?: string;
   provider?: string;
   modelType?: "completion" | "chat";
-  mem0Config?: KozmodbConfig;
+  kozmodbConfig?: KozmodbConfig;
 
   /**
    * The configuration for the provider.
@@ -73,9 +73,9 @@ export function createKozmodb(
         headers: getHeaders(),
         provider: options.provider || "openai",
         name: options.name,
-        mem0ApiKey: options.mem0ApiKey,
+        kozmodbApiKey: options.kozmodbApiKey,
         apiKey: options.apiKey,
-        mem0Config: options.mem0Config,
+        kozmodbConfig: options.kozmodbConfig,
       },
       options.config
     );
@@ -93,9 +93,9 @@ export function createKozmodb(
         headers: getHeaders(),
         provider: options.provider || "openai",
         name: options.name,
-        mem0ApiKey: options.mem0ApiKey,
+        kozmodbApiKey: options.kozmodbApiKey,
         apiKey: options.apiKey,
-        mem0Config: options.mem0Config,
+        kozmodbConfig: options.kozmodbConfig,
         modelType: "completion",
       },
       options.config
@@ -114,9 +114,9 @@ export function createKozmodb(
         headers: getHeaders(),
         provider: options.provider || "openai",
         name: options.name,
-        mem0ApiKey: options.mem0ApiKey,
+        kozmodbApiKey: options.kozmodbApiKey,
         apiKey: options.apiKey,
-        mem0Config: options.mem0Config,
+        kozmodbConfig: options.kozmodbConfig,
         modelType: "completion",
       },
       options.config

@@ -2,8 +2,8 @@ import argparse
 import os
 
 from src.langmem import LangMemManager
-from src.memzero.add import MemoryADD
-from src.memzero.search import MemorySearch
+from src.kozmozero.add import MemoryADD
+from src.kozmozero.search import MemorySearch
 from src.openai.predict import OpenAIPredict
 from src.rag import RAGManager
 from src.utils import METHODS, TECHNIQUES
@@ -43,7 +43,7 @@ def main():
         elif args.method == "search":
             output_file_path = os.path.join(
                 args.output_folder,
-                f"mem0_results_top_{args.top_k}_filter_{args.filter_memories}_graph_{args.is_graph}.json",
+                f"kozmodb_results_top_{args.top_k}_filter_{args.filter_memories}_graph_{args.is_graph}.json",
             )
             memory_searcher = MemorySearch(output_file_path, args.top_k, args.filter_memories, args.is_graph)
             memory_searcher.process_data_file("dataset/locomo10.json")
