@@ -33,7 +33,24 @@ jobs:
         run: |
           hatch build --clean
 
+      - name: Check if version exists on PyPI
+        id: check_version
+        run: |
+          VERSION=$(hatch version)
+          echo "Version: $VERSION"
+          
+          # Check if version exists on PyPI
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://pypi.org/pypi/kozmodb/$VERSION/json")
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Version $VERSION already exists on PyPI"
+            echo "skip_upload=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $VERSION does not exist on PyPI, proceeding with upload"
+            echo "skip_upload=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Publish distribution to PyPI
+        if: steps.check_version.outputs.skip_upload == 'false'
 #        if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -65,7 +82,25 @@ jobs:
           cd kozmograph
           poetry build
 
+      - name: Check if kozmograph version exists on PyPI
+        id: check_kozmograph_version
+        run: |
+          cd kozmograph
+          VERSION=$(poetry version -s)
+          echo "Kozmograph Version: $VERSION"
+          
+          # Check if version exists on PyPI (package name is langchain-kozmograph)
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://pypi.org/pypi/langchain-kozmograph/$VERSION/json")
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Version $VERSION already exists on PyPI"
+            echo "skip_upload=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $VERSION does not exist on PyPI, proceeding with upload"
+            echo "skip_upload=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Publish kozmograph to PyPI
+        if: steps.check_kozmograph_version.outputs.skip_upload == 'false'
 #        if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -97,7 +132,25 @@ jobs:
           cd kozmochain
           poetry build
 
+      - name: Check if kozmochain version exists on PyPI
+        id: check_kozmochain_version
+        run: |
+          cd kozmochain
+          VERSION=$(poetry version -s)
+          echo "Kozmochain Version: $VERSION"
+          
+          # Check if version exists on PyPI
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://pypi.org/pypi/kozmochain/$VERSION/json")
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Version $VERSION already exists on PyPI"
+            echo "skip_upload=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $VERSION does not exist on PyPI, proceeding with upload"
+            echo "skip_upload=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Publish kozmochain to PyPI
+        if: steps.check_kozmochain_version.outputs.skip_upload == 'false'
 #        if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
