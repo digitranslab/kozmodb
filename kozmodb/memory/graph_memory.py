@@ -4,13 +4,17 @@ from kozmodb.memory.utils import format_entities
 
 try:
     from langchain_neo4j import Neo4jGraph
+    LANGCHAIN_NEO4J_AVAILABLE = True
 except ImportError:
-    raise ImportError("langchain_neo4j is not installed. Please install it using pip install langchain-neo4j")
+    LANGCHAIN_NEO4J_AVAILABLE = False
+    Neo4jGraph = None
 
 try:
     from rank_bm25 import BM25Okapi
+    RANK_BM25_AVAILABLE = True
 except ImportError:
-    raise ImportError("rank_bm25 is not installed. Please install it using pip install rank-bm25")
+    RANK_BM25_AVAILABLE = False
+    BM25Okapi = None
 
 from kozmodb.graphs.tools import (
     DELETE_MEMORY_STRUCT_TOOL_GRAPH,
@@ -28,6 +32,11 @@ logger = logging.getLogger(__name__)
 
 class MemoryGraph:
     def __init__(self, config):
+        if not LANGCHAIN_NEO4J_AVAILABLE:
+            raise ImportError("langchain_neo4j is not installed. Please install it using pip install langchain-neo4j")
+        if not RANK_BM25_AVAILABLE:
+            raise ImportError("rank_bm25 is not installed. Please install it using pip install rank-bm25")
+            
         self.config = config
         self.graph = Neo4jGraph(
             self.config.graph_store.config.url,
