@@ -40,7 +40,7 @@ clean:
 	rm -rf dist build *.egg-info
 
 lint:
-	poetry run ruff .
+	poetry run ruff check .
 
 build:
 	poetry build
