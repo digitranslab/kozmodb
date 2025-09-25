@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB EventStoreDB handler'
+__package_name__ = 'kozmodb_eventstoredb_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for EventStoreDB"
+__author__ = 'Lokhesh Ujhoodha'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2023- kozmodb'

@@ -1,0 +1,82 @@
+---
+title: Connect
+sidebarTitle: Connect
+---
+
+Before performing any operations, you must connect to KozmoDB. By default, all operations will go through [KozmoDB Cloud REST APIs](/rest/sql), but you can use a self-hosted version of KozmoDB as well.
+
+<Tabs>
+  <Tab title="Local KozmoDB">
+  Here is how to connect to your local KozmoDB server:
+
+  ```
+  import KozmoDB from 'kozmodb-js-sdk';
+  // const KozmoDB = require("kozmodb-js-sdk").default; // alternative for CommonJS syntax
+
+  try {
+
+    // No authentication needed for self-hosting
+    await KozmoDB.connect({ // alternative for ES6 module syntax: await KozmoDB.default.connect({
+      host: 'http://127.0.0.1:47334'
+    });
+    console.log('connected');
+
+  } catch(error) {
+    // Failed to connect to local instance
+    console.log(error);
+  }
+  ```
+  </Tab>
+  <Tab title="Own Axios Instance">
+  Here is how to connect using your own Axios instance (see [details on the default instance](https://github.com/digitranslab/kozmodb-js-sdk/blob/main/src/util/http.ts)):
+
+  ```
+  import KozmoDB from 'kozmodb-js-sdk';
+  // const KozmoDB = require("kozmodb-js-sdk").default; // alternative for CommonJS syntax
+  
+  import axios from 'axios';
+
+  // Use 'host' option in KozmoDB.connect to specify base URL override
+  const customAxios = axios.create({
+    timeout: 1000,
+  });
+
+  try {
+
+    await KozmoDB.connect({
+      user: kozmodbuser@gmail.com,
+      password: mypassword,
+      httpClient: customAxios
+    });
+    console.log('connected');
+
+  } catch(error) {
+    // Failed to authenticate
+    console.log(error);
+  }
+  ```
+  </Tab>
+</Tabs>
+
+<Tip>
+Please note that all methods that use `await` must be wrapped in an `async` function, like this:
+
+```
+(async() => {
+
+  try {
+
+    // No authentication needed for self-hosting
+    await KozmoDB.connect({
+      host: 'http://127.0.0.1:47334'
+    });
+    console.log('connected');
+
+  } catch(error) {
+    // Failed to connect to local instance
+    console.log(error);
+  }
+
+})();
+```
+</Tip>

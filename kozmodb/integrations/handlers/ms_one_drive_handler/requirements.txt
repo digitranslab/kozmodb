@@ -1,0 +1,2 @@
+msal
+-r kozmodb/integrations/utilities/handlers/auth_utilities/microsoft/requirements.txt

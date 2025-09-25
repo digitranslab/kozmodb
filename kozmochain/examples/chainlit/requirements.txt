@@ -1,2 +1,0 @@
-chainlit==0.7.700
-kozmochain==0.1.31

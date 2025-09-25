@@ -1,0 +1,35 @@
+---
+title: Upload PDF files to KozmoDB
+sidebarTitle: PDF
+---
+
+You can upload PDF files of any size to KozmoDB that runs locally via [Docker](/setup/self-hosted/docker) or [pip](/contribute/install).
+
+Note that KozmoDB supports only searchable PDFs, as opposed to scanned PDFs. These are stored in the form of a table inside KozmoDB.
+
+## Upload files
+
+Follow the steps below to upload a file:
+
+1. Click on the `Add` dropdown and choose `Upload file`.
+
+<p align="center">
+  <img src="/assets/files/upload_file.png"/>
+</p>
+
+2. Upload a file and provide a name used to access it within KozmoDB.
+
+<p align="center">
+  <img src="/assets/files/upload_file_from_computer.png"/>
+</p>
+
+## Query files
+
+Here is how to query data within KozmoDB.
+
+Query for the content of the file uploaded under the name `my_file`.
+
+```sql
+SELECT *
+FROM files.my_file;
+```

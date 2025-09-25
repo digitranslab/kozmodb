@@ -1,55 +1,46 @@
-# Contributing to kozmodb
+# Contributing to Kozmodb
 
-Let us make contribution easy, collaborative and fun.
+Being part of the core KozmoDB team is accessible to anyone who is motivated and wants to be part of that journey!
 
-## Submit your Contribution through PR
+Please see below how to contribute to the project, also refer to the contributing documentation.
 
-To make a contribution, follow these steps:
+## How can you help us?
 
-1. Fork and clone this repository
-2. Do the changes on your fork with dedicated feature branch `feature/f1`
-3. If you modified the code (new feature or bug-fix), please add tests for it
-4. Include proper documentation / docstring and examples to run the feature
-5. Ensure that all tests pass
-6. Submit a pull request
+* Report a bug
+* Improve documentation
+* Discuss the code implementation
+* Submit a bug fix
+* Propose new features
+* Test Kozmodb
 
-For more details about pull requests, please read [GitHub's guides](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+## Code contributions
 
+In general, we follow the "fork-and-pull" Git workflow.
+1. Fork the Kozmodb repository
+2. Clone the repository
+3. Make changes and commit them
+4. Push your local branch to your fork
+5. Submit a Pull request so that we can review your changes
+6. Write a commit message
+7. Make sure that the CI tests are GREEN
 
-### 📦 Package manager
+> NOTE: Be sure to merge the latest from "upstream" before making a pull request! Also, make the PR to the `main` branch.
 
-We use `poetry` as our package manager. You can install poetry by following the instructions [here](https://python-poetry.org/docs/#installation).
+## Feature and Bug reports
+We use GitHub issues to track bugs and features. Report them by opening a [new issue](https://github.com/digitranslab/kozmodb/issues/new/choose) and fill out all of the required inputs.
 
-Please DO NOT use pip or conda to install the dependencies. Instead, use poetry:
+## Code review process
 
-```bash
-make install_all
+The Pull Request reviews are done on a regular basis. Please, make sure you respond to our feedback/questions.
 
-#activate
+## Community
 
-poetry shell
-```
+If you have additional questions or you want to chat with the KozmoDB core team, please join our [Slack community](https://kozmodb.com/joincommunity) or post at [Github Discussions](https://github.com/digitranslab/kozmodb/discussions).
+ 
+To get updates on KozmoDB’s latest announcements, releases, and events, sign up for our [Monthly Community Newsletter](https://kozmodb.com/newsletter/?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo).
 
-### 📌 Pre-commit
+Join our mission of democratizing machine learning!
 
-To ensure our standards, make sure to install pre-commit before starting to contribute.
+## Contributor Code of Conduct
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/digitranslab/kozmodb/blob/main/CODE_OF_CONDUCT.md). By participating in this project, you agree to abide by its terms.
 
-```bash
-pre-commit install
-```
-
-### 🧪 Testing
-
-We use `pytest` to test our code. You can run the tests by running the following command:
-
-```bash
-poetry run pytest tests
-
-# or
-
-make test
-```
-
-Several packages have been removed from Poetry to make the package lighter. Therefore, it is recommended to run `make install_all` to install the remaining packages and ensure all tests pass. Make sure that all tests pass before submitting a pull request.
-
-We look forward to your pull requests and can't wait to see your contributions!

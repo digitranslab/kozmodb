@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: kozmodb_sql_parser
+Version: 0.11.4
+Summary: Kozmodb SQL parser
+Home-page: https://github.com/digitranslab/kozmodb_sql_parser
+Download-URL: https://pypi.org/project/kozmodb_sql_parser
+Author: KozmoDB Inc
+Author-email: jorge@kozmodb.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary

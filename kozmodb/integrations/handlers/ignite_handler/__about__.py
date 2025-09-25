@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB Apache Ignite handler'
+__package_name__ = 'kozmodb_ignite_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for Apache Ignite"
+__author__ = 'Minura Punchihewa'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2022- kozmodb'

@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB SAP HANA handler'
+__package_name__ = 'kozmodb_hana_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for SAP HANA"
+__author__ = 'Sudipto Ghosh'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2022 - kozmodb'

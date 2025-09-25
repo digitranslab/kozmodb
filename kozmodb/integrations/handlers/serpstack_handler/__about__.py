@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB Serpstack handler'
+__package_name__ = 'kozmodb_serpstack_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for Serpstack API"
+__author__ = 'Anders Ooi'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2024 - kozmodb'

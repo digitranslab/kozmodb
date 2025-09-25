@@ -1,0 +1,37 @@
+---
+title: Connect a Data Source
+sidebarTitle: Connect a Data Source
+---
+
+## Description
+
+The `KozmoDB.Databases.createDatabase` function connects a new data source to KozmoDB.
+
+## Syntax
+
+Here is how to connect our sample MySQL database:
+
+```
+const connectionParams = {
+  'user': 'user',
+  'port': 3306,
+  'password': 'KozmoDBUser123!',
+  'host': 'samples.kozmodb.com',
+  'database': 'public'
+}
+
+try {
+
+  const mysqlDatabase = await KozmoDB.Databases.createDatabase(
+    'mysql_datasource',
+    'mysql',
+    connectionParams);
+  console.log('connected a database');
+
+} catch (error) {
+  // Couldn't connect to database
+  console.log(error);
+}
+```
+
+First, we define the connection parameters and then use the `createDatabase` function to connect a database.

@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB SurrealDB handler'
+__package_name__ = 'kozmodb_surrealdb_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for SurrealDB"
+__author__ = 'Emmanouil Dellatolas & Georgios Artopoulos'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2023- kozmodb'

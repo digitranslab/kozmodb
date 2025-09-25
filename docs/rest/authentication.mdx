@@ -1,0 +1,49 @@
+---
+title: Authentication
+sidebarTitle: Authentication
+---
+
+KozmoDB provides an optional authentication mechanism for its HTTP API. This includes setting up a username and a password for the KozmoDB instance. Learn [more here](/setup/custom-config#auth).
+
+If this authentication method is defined in the KozmoDB configuration file, it is required to authenticate oneself when using the REST API endpoints of this KozmoDB instance.
+
+**Here is how to authenticate an HTTP session for calling KozmoDB REST APIs.**
+
+1. Call the `login` endpoint with the username and password parameters.
+
+    ```
+    curl --request POST --url 'http://127.0.0.1:47334/api/login' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{"username":"your-username","password":"your-password"}' -v
+    ```
+
+    This command returns an HTTP status code 200 if the request is successful, along with a token in the response body.
+
+2. Call any other endpoint providing the token.
+
+    ```
+    curl --request GET \
+    --url http://127.0.0.1:47334/api/projects/kozmodb/... \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer pat_your_kozmodb_token_here' \
+    --data '{
+    ...
+    }'
+    ```
+
+    For example, query an agent under the authenticated session:
+
+    ```
+    curl --request POST \
+    --url http://127.0.0.1:47334/api/projects/kozmodb/agents/my_agent/completions/stream \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer pat_your_kozmodb_token_here' \
+    --data '{
+    "messages": [
+        {
+        "question": "What is KozmoDB?",
+        "answer": ""
+        }
+    ]
+    }'
+    ```

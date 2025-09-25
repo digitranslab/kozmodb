@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB Eventbrite handler'
+__package_name__ = 'kozmodb_eventbrite_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for the Eventbrite API"
+__author__ = 'Ton Hoang Nguyen (Bill)'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2023 - kozmodb'

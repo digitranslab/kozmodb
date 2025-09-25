@@ -1,0 +1,45 @@
+---
+title: Starting KozmoDB's MCP API
+sidebarTitle: KozmoDB's MCP API
+---
+
+This sections provides instructions on how to start KozmoDB with its MCP API enabled.
+
+## Enable KozmoDB as an MCP Server
+
+1. Install KozmoDB locally via [Docker](https://docs.kozmodb.com/setup/self-hosted/docker) or [Docker Desktop](https://docs.kozmodb.com/setup/self-hosted/docker-desktop).
+
+2. The MCP API is enabled by default, as part of the HTTP API, at path `/mcp/`.
+
+
+To enable the HTTP API explicitly, you can use the [`KOZMODB_APIS` environment variable](/setup/environment-vars#kozmodb-apis):
+
+```bash
+export KOZMODB_APIS='http,mysql,postgres'
+```
+
+Or, specify it when starting KozmoDB:
+
+```bash
+python -m kozmodb --api http,mysql,postgres
+```
+
+<Tip>
+If this is your first time using KozmoDB, make sure to [connect your data source](/kozmodb_sql/sql/create/database) and/or [upload files](/kozmodb_sql/sql/create/file), so that you can ask questions over your data as shown in the following steps.
+
+To get you started quickly, use our sample dataset that stores the sales manager data.
+
+```sql
+CREATE DATABASE sales_manager_data
+WITH ENGINE = "postgres",
+PARAMETERS = {
+    "user": "demo_user",
+    "password": "demo_password",
+    "host": "samples.kozmodb.com",
+    "port": "5432",
+    "database": "sales_manager_data"
+};
+```
+</Tip>
+
+3. KozmoDB's MCP server is available at `localhost:47334/mcp/sse`.

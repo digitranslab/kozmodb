@@ -1,0 +1,122 @@
+---
+title: KozmoDB Installation for Development
+sidebarTitle: Installation for Development
+icon: "gears"
+---
+
+If you want to contribute to the development of KozmoDB, you need to install from source.
+
+<Info>
+If you do not want to contribute to the development of KozmoDB but simply install and use it, then [install KozmoDB via Docker](/setup/self-hosted/docker).
+</Info>
+
+## Install KozmoDB for Development
+
+Here are the steps to install KozmoDB from source. You can either
+follow the steps below or visit the provided link.
+
+<Info>
+Before installing KozmoDB from source, ensure that you use one of the following Python versions: `3.10.x`, `3.11.x`.
+</Info>
+
+1. Fork the [KozmoDB repository from GitHub](https://github.com/digitranslab/kozmodb).
+
+2. Clone the fork locally:
+
+   ```bash
+   git clone https://github.com/<username>/kozmodb.git
+   ```
+
+3. Create a virtual environment:
+
+   ```bash
+   python -m venv kozmodb-venv
+   ```
+
+4. Activate the virtual environment:
+
+   Windows:
+
+     ```bash
+     .\kozmodb-venv\Scripts\activate
+     ```
+
+   macOS/Linux:
+
+     ```bash
+     source kozmodb-venv/bin/activate
+     ```
+
+5. Install KozmoDB with its local development dependencies:
+
+   Install dependencies:
+
+   ```bash
+   cd kozmodb
+   pip install -e .
+   pip install -r requirements/requirements-dev.txt
+   ```
+   
+6. Start KozmoDB:
+   
+   ```bash
+   python -m kozmodb
+   ```
+
+   <Tip>
+   By default, KozmoDB starts the `http` and `mysql` APIs. You can define which APIs to start using the `api` flag as below.
+
+   ```bash
+   python -m kozmodb --api http,mysql,postgres
+   ```
+
+   If you want to start KozmoDB without the graphical user interface (GUI), use the `--no_studio` flag as below.
+
+   ```bash
+   python -m kozmodb --no_studio
+   ```
+   </Tip>
+
+<Info>
+Alternatively, you can use a makefile to install dependencies and start KozmoDB:
+  
+   ```bash
+    make install_kozmodb
+    make run_kozmodb
+    ```
+</Info>
+
+Now you should see the following message in the console:
+
+```
+...
+
+kozmodb.api.http.initialize:  - GUI available at http://127.0.0.1:47334/
+kozmodb.api.mysql.mysql_proxy.mysql_proxy: Starting KozmoDB Mysql proxy server on tcp://127.0.0.1:47335
+kozmodb.api.mysql.mysql_proxy.mysql_proxy: Waiting for incoming connections...
+kozmodb: mysql API: started on 47335
+kozmodb: http API: started on 47334
+```
+
+You can access the KozmoDB Editor at `localhost:47334`.
+
+
+## Install dependencies
+
+The dependencies for many of the data or ML integrations are not installed by default.
+
+If you want to use a data or AI/ML integration whose dependencies are not available by default, install it by running this command:
+
+```
+pip install .[handler_name]
+```
+
+<Tip>
+You can find all available [handlers here](https://github.com/digitranslab/kozmodb/tree/main/kozmodb/integrations/handlers).
+</Tip>
+
+## What's Next?
+
+Now that you installed and started KozmoDB locally, go ahead and find out how to create and train a model using the [`CREATE MODEL`](/sql/create/model) statement.
+
+Check out the [Use Cases](/use-cases/overview) section to follow tutorials that cover Large Language Models, Chatbots, Time Series, Classification, and Regression models, Semantic Search, and more.

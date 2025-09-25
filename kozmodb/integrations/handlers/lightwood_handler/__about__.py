@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB Lightwood handler'
+__package_name__ = 'kozmodb_lightwood_handler'
+__version__ = '1.0.0'
+__description__ = "KozmoDB handler for Lightwood"
+__author__ = 'KozmoDB Inc'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2022- kozmodb'

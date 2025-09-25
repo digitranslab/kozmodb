@@ -1,0 +1,17 @@
+---
+title: Native Queries
+sidebarTitle: Native Queries
+---
+
+## Description
+
+The `runQuery()` function executes a query given as its argument directly in KozmoDB. And the native queries syntax ensures that the query is executed directly on the connected data source.
+
+## Syntax
+
+Here is the syntax:
+
+```
+const query = `SELECT * FROM datasource_name (<native query here>)`;
+const queryResult = await KozmoDB.SQL.runQuery(query);
+```

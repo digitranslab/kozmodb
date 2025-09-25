@@ -1,0 +1,4 @@
+/.github/workflows/ @kozmodb/devops
+/tests/scripts/ @kozmodb/devops
+/docker/docker-bake.hcl @kozmodb/devops
+/pyproject.toml @kozmodb/devops

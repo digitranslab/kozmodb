@@ -1,0 +1,459 @@
+import pytest
+
+from kozmodb_sql import parse_sql
+from kozmodb_sql.exceptions import PlanningException
+from kozmodb_sql.parser.ast import *
+from kozmodb_sql.planner import plan_query
+from kozmodb_sql.planner.query_plan import QueryPlan
+from kozmodb_sql.planner.step_result import Result
+from kozmodb_sql.planner.steps import (ProjectStep, ApplyPredictorRowStep, GetPredictorColumns, FetchDataframeStep)
+
+
+class TestPlanSelectFromPredictor:
+    def test_select_from_predictor_plan(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('kozmodb.pred'),
+                       where=BinaryOperation(op='and',
+                                             args=[BinaryOperation(op='=', args=[Identifier('x1'), Constant(1)]),
+                                                   BinaryOperation(op='=', args=[Identifier('x2'), Constant('2')])],
+                                             ))
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='kozmodb', predictor=Identifier('pred'),
+                                                            row_dict={'x1': 1, 'x2': '2'}),
+                                  ],
+
+                                  )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+        assert plan.steps == expected_plan.steps
+
+    def test_select_from_predictor_negative_constant(self):
+        query = parse_sql('''
+            select * from kozmodb.pred
+            where x1 = -1
+        ''')
+
+        expected_plan = QueryPlan(
+            predictor_namespace='kozmodb',
+            steps=[
+                ApplyPredictorRowStep(namespace='kozmodb', predictor=Identifier('pred'), row_dict={'x1': -1,}),
+            ],
+        )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+        assert plan.steps == expected_plan.steps
+
+    def test_select_from_predictor_plan_other_ml(self):
+        query = parse_sql('''
+            select * from mlflow.pred
+            where x1 = 1 and x2 = '2'
+        ''')
+
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='mlflow', predictor=Identifier('pred'),
+                                                            row_dict={'x1': 1, 'x2': '2'}),
+                                  ],
+
+                                  )
+
+        plan = plan_query(query, predictor_metadata=[{'name': 'pred', 'integration_name': 'mlflow'}])
+
+        assert plan.steps == expected_plan.steps
+        
+
+    def test_select_from_predictor_aliases_in_project(self):
+        query = Select(targets=[Identifier('tb.x1', alias=Identifier('col1')),
+                                Identifier('tb.x2', alias=Identifier('col2')),
+                                Identifier('tb.y', alias=Identifier('predicted'))],
+                       from_table=Identifier('kozmodb.pred', alias=Identifier('tb')),
+                       where=BinaryOperation(op='and',
+                                             args=[
+                                                 BinaryOperation(op='=', args=[Identifier('tb.x1'), Constant(1)]),
+                                                 BinaryOperation(op='=', args=[Identifier('tb.x2'), Constant('2')]),
+                                             ],
+                                             )
+                       )
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='kozmodb',
+                                                            predictor=Identifier('pred', alias=Identifier('tb')),
+                                                            row_dict={'x1': 1, 'x2': '2'}),
+                                      ProjectStep(dataframe=Result(0),
+                                                  columns=[Identifier('tb.x1', alias=Identifier('col1')),
+                                                           Identifier('tb.x2', alias=Identifier('col2')),
+                                                           Identifier('tb.y', alias=Identifier('predicted'))]),
+                                  ],
+
+                                  )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+        assert plan.steps == expected_plan.steps
+        
+
+    def test_select_from_predictor_plan_predictor_alias(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('kozmodb.pred', alias=Identifier('pred_alias')),
+                       where=BinaryOperation(op='and',
+                                             args=[BinaryOperation(op='=', args=[Identifier('pred_alias.x1'), Constant(1)]),
+                                                   BinaryOperation(op='=',
+                                                                   args=[Identifier('pred_alias.x2'), Constant('2')])],
+                                             ))
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='kozmodb', predictor=Identifier('pred', alias=Identifier('pred_alias')),
+                                                            row_dict={'x1': 1, 'x2': '2'}),
+                                  ],
+                                  )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+        assert plan.steps == expected_plan.steps
+        
+
+    def test_select_from_predictor_plan_verbose_col_names(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('kozmodb.pred'),
+                       where=BinaryOperation(op='and',
+                                             args=[BinaryOperation(op='=', args=[Identifier('pred.x1'), Constant(1)]),
+                                                   BinaryOperation(op='=', args=[Identifier('pred.x2'), Constant('2')])],
+                                             ))
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='kozmodb', predictor=Identifier('pred'),
+                                                            row_dict={'x1': 1, 'x2': '2'}),
+                                      ProjectStep(dataframe=Result(0), columns=[Star()]),
+                                  ],
+                                  )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+        for i in range(len(plan.steps)):
+            assert plan.steps[i] == expected_plan.steps[i]
+
+
+
+    def test_select_from_predictor_plan_group_by_error(self):
+        query = Select(targets=[Identifier('x1'), Identifier('x2'), Identifier('pred.y')],
+                       from_table=Identifier('kozmodb.pred'),
+                       group_by=[Identifier('x1')]
+                       )
+        with pytest.raises(PlanningException):
+            plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+
+    def test_select_from_predictor_wrong_where_op_error(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('kozmodb.pred'),
+                       where=BinaryOperation(op='and',
+                                             args=[BinaryOperation(op='>', args=[Identifier('x1'), Constant(1)]),
+                                                   BinaryOperation(op='=', args=[Identifier('x2'), Constant('2')])],
+                                             ))
+
+        with pytest.raises(PlanningException):
+            plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+
+    def test_select_from_predictor_multiple_values_error(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('kozmodb.pred'),
+                       where=BinaryOperation(op='and',
+                                             args=[BinaryOperation(op='=', args=[Identifier('x1'), Constant(1)]),
+                                                   BinaryOperation(op='=', args=[Identifier('x1'), Constant('2')])],
+                                             ))
+
+        with pytest.raises(PlanningException):
+            plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+
+    def test_select_from_predictor_no_where_error(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('kozmodb.pred'))
+
+        with pytest.raises(PlanningException):
+            plan_query(query, predictor_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+    def test_select_from_predictor_default_namespace(self):
+        query = Select(targets=[Star()],
+                       from_table=Identifier('pred'),
+                       where=BinaryOperation(op='and',
+                                             args=[BinaryOperation(op='=', args=[Identifier('x1'), Constant(1)]),
+                                                   BinaryOperation(op='=', args=[Identifier('x2'), Constant('2')])],
+                                             ))
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  default_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='kozmodb', predictor=Identifier('pred'),
+                                                            row_dict={'x1': 1, 'x2': '2'}),
+                                  ],
+                                  )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', default_namespace='kozmodb', predictor_metadata={'pred': {}})
+
+        assert plan.steps == expected_plan.steps
+
+    def test_select_from_predictor_get_columns(self):
+        sql = f'SELECT GDP_per_capita_USD FROM hdi_predictor_external WHERE 1 = 0'
+        query = parse_sql(sql, dialect='kozmodb')
+
+        expected_query = Select(targets=[Identifier('GDP_per_capita_USD')],
+                                       from_table=Identifier('hdi_predictor_external'),
+                                       where=BinaryOperation(op="=",
+                                                             args=[Constant(1), Constant(0)]))
+        assert query.to_tree() == expected_query.to_tree()
+
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  default_namespace='kozmodb',
+                                  steps=[
+                                      GetPredictorColumns(namespace='kozmodb',
+                                                            predictor=Identifier('hdi_predictor_external')),
+                                      ProjectStep(dataframe=Result(0), columns=[Identifier('GDP_per_capita_USD')]),
+                                  ],
+                                  )
+
+        plan = plan_query(query, predictor_namespace='kozmodb', default_namespace='kozmodb', predictor_metadata={'hdi_predictor_external': {}})
+
+        assert plan.steps == expected_plan.steps
+
+    def test_using_predictor_version(self):
+        query = parse_sql('''
+            select * from kozmodb.pred.21
+            where x1 = 1
+        ''', dialect='kozmodb')
+
+        expected_plan = QueryPlan(predictor_namespace='kozmodb',
+                                  steps=[
+                                      ApplyPredictorRowStep(namespace='kozmodb', predictor=Identifier(parts=['pred', '21']),
+                                                            row_dict={'x1': 1})
+                                  ],
+                                  )
+
+        plan = plan_query(query, predictor_metadata=[{'name': 'pred', 'integration_name': 'kozmodb'}])
+
+        assert plan.steps == expected_plan.steps
+
+    def test_select_from_predictor_subselect(self):
+        query = parse_sql('''
+            select * from kozmodb.pred.21
+            where x1 = (select id from int1.t1)
+        ''', dialect='kozmodb')
+
+        expected_plan = QueryPlan(
+            predictor_namespace='kozmodb',
+            steps=[
+                FetchDataframeStep(
+                    integration='int1',
+                    query=parse_sql('select id as id from t1'),
+                ),
+                ApplyPredictorRowStep(
+                    namespace='kozmodb',
+                    predictor=Identifier(parts=['pred', '21']),
+                    row_dict={'x1': Parameter(Result(0))}
+                )
+            ],
+        )
+
+        plan = plan_query(
+            query,
+            integrations=['int1'],
+            predictor_metadata=[{'name': 'pred', 'integration_name': 'kozmodb'}]
+        )
+
+        assert plan.steps == expected_plan.steps
+
+    def test_select_from_view_subselect(self):
+        query = parse_sql('''
+            select * from v1
+            where x1 in (select id from int1.tab1)
+        ''', dialect='kozmodb')
+
+        expected_plan = QueryPlan(
+            predictor_namespace='kozmodb',
+            steps=[
+                FetchDataframeStep(
+                    integration='int1',
+                    query=parse_sql('select id as id from tab1'),
+                ),
+                FetchDataframeStep(
+                    integration='kozmodb',
+                    query=Select(
+                        targets=[Star()],
+                        from_table=Identifier('v1'),
+                        where=BinaryOperation(
+                            op='in',
+                            args=[
+                                Identifier(parts=['x1']),
+                                Parameter(Result(0))
+                            ]
+                        )
+                    ),
+                ),
+            ],
+        )
+
+        plan = plan_query(
+            query,
+            integrations=['int1'],
+            default_namespace='kozmodb',
+            predictor_metadata=[{'name': 'pred', 'integration_name': 'kozmodb'}]
+        )
+
+        assert plan.steps == expected_plan.steps
+
+
+    def test_select_from_view_subselect_view(self):
+        query = parse_sql('''
+            select * from v1
+            where x1 in (select v2.id from v2)
+        ''', dialect='kozmodb')
+
+        expected_plan = QueryPlan(
+            predictor_namespace='kozmodb',
+            steps=[
+                FetchDataframeStep(
+                    integration='kozmodb',
+                    query=parse_sql('select v2.id as id from v2'),
+                ),
+                FetchDataframeStep(
+                    integration='kozmodb',
+                    query=Select(
+                        targets=[Star()],
+                        from_table=Identifier('v1'),
+                        where=BinaryOperation(
+                            op='in',
+                            args=[
+                                Identifier(parts=['x1']),
+                                Parameter(Result(0))
+                            ]
+                        )
+                    ),
+                ),
+            ],
+        )
+
+        plan = plan_query(
+            query,
+            integrations=[],
+            default_namespace='kozmodb',
+            predictor_metadata=[]
+        )
+
+        assert plan.steps == expected_plan.steps
+
+class TestMLSelect:
+
+    def test_select_from_predictor_plan_other_ml(self):
+        # sends to integrations
+        query = parse_sql(''' select * from mlflow.predictors ''')
+
+        expected_plan = QueryPlan(steps=[
+            FetchDataframeStep(step_num=0, integration='mlflow', query=parse_sql('SELECT * FROM predictors'))
+          ],
+        )
+
+        plan = plan_query(query, predictor_metadata=[], integrations=['mlflow'])
+
+        assert plan.steps == expected_plan.steps
+
+
+
+class TestNestedSelect:
+
+    def test_using_predictor_in_subselect(self):
+        """
+        Use predictor in subselect when selecting from integration
+        """
+        sql = """
+        SELECT *
+        FROM chromadb.test_tabl 
+        WHERE
+            search_vector = (
+                SELECT emebddings
+                FROM kozmodb.embedding_model
+                WHERE
+                    content = 'some text'
+            )
+        """
+        ast_tree = parse_sql(sql)
+        plan = plan_query(
+            ast_tree,
+            integrations=['chromadb'],
+            predictor_metadata=[
+                {'name': 'embedding_model', 'integration_name': 'kozmodb'}
+            ]
+        )
+
+        expected_plan = [
+            ApplyPredictorRowStep(
+                step_num=0,
+                namespace='kozmodb',
+                predictor=Identifier(parts=['embedding_model']),
+                row_dict={'content': 'some text'}
+            ),
+            ProjectStep(
+                step_num=1,
+                dataframe=Result(0),
+                columns=[Identifier(parts=['emebddings'])]
+            ),
+            FetchDataframeStep(
+                step_num=2,
+                integration='chromadb',
+                query=Select(
+                    targets=[Star()],
+                    from_table=Identifier(parts=['test_tabl']),
+                    where=BinaryOperation(
+                        op='=',
+                        args=[
+                            Identifier(parts=['search_vector']),
+                            Parameter(Result(1))
+                        ]
+                    )
+                ),
+            ),
+        ]
+
+        assert plan.steps == expected_plan
+
+    def test_using_integration_in_subselect(self):
+        """
+        Use integration in subselect when selecting from predictor
+        """
+        sql = """
+
+        SELECT *
+        FROM kozmodb.embedding_model
+        WHERE
+            content = (
+                SELECT content
+                FROM chromadb.test_tabl
+                LIMIT 1
+            )
+        """
+        ast_tree = parse_sql(sql)
+        plan = plan_query(
+            ast_tree,
+            integrations=['chromadb'],
+            predictor_metadata=[
+                {'name': 'embedding_model', 'integration_name': 'kozmodb'}
+            ]
+        )
+
+        expected_plan = [
+            FetchDataframeStep(
+                step_num=0,
+                integration='chromadb',
+                query=parse_sql('SELECT content AS content FROM test_tabl LIMIT 1')
+            ),
+            ApplyPredictorRowStep(
+                step_num=1,
+                namespace='kozmodb',
+                predictor=Identifier(parts=['embedding_model']),
+                row_dict={'content': Parameter(Result(0))}
+            )
+        ]
+
+        assert plan.steps == expected_plan

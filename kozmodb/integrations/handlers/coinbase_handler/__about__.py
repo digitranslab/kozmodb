@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB CoinBase handler'
+__package_name__ = 'kozmodb_coinbase_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for the CoinBase API"
+__author__ = 'Bustedware LLC'
+__github__ = 'https://github.com/bustedware'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2023 - kozmodb'

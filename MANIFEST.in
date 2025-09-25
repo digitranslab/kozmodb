@@ -1,0 +1,5 @@
+recursive-include requirements *.txt
+include kozmodb/migrations/alembic.ini
+recursive-include kozmodb/integrations/utilities/datasets *.csv
+recursive-include kozmodb/integrations/handlers *.txt *.png *.svg *.jpg
+include default_handlers.txt

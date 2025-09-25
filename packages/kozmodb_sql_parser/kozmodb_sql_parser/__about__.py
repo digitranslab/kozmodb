@@ -1,0 +1,10 @@
+__title__ = 'kozmodb_sql_parser'
+__package_name__ = 'kozmodb_sql_parser'
+__version__ = '0.11.4'
+__description__ = "Kozmodb SQL parser"
+__email__ = "jorge@kozmodb.com"
+__author__ = 'KozmoDB Inc'
+__github__ = 'https://github.com/digitranslab/kozmodb_sql_parser'
+__pypi__ = 'https://pypi.org/project/kozmodb_sql_parser'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2024- kozmodb'

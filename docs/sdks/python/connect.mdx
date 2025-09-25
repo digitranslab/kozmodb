@@ -1,0 +1,18 @@
+---
+title: Connect
+sidebarTitle: Connect
+---
+
+This documentation describes how you can connect to your KozmoDB server from Python code.
+
+Here is how to connect to your local KozmoDB server:
+
+```
+import kozmodb_sdk
+
+# connects to the default port (47334) on localhost 
+server = kozmodb_sdk.connect()
+
+# connects to the specified host and port
+server = kozmodb_sdk.connect('http://127.0.0.1:47334')
+```

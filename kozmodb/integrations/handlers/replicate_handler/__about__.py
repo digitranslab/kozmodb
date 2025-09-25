@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB Replicate handler'
+__package_name__ = 'kozmodb_replicate_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for Replicate"
+__author__ = 'Parthiv Makwana'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2023- kozmodb'

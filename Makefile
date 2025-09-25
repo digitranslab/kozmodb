@@ -1,60 +1,61 @@
-.PHONY: format sort lint
+PYTEST_ARGS = -v -rs --disable-warnings -n auto --dist loadfile
+PYTEST_ARGS_DEBUG = --runslow -vs -rs
 
-# Variables
-ISORT_OPTIONS = --profile black
-PROJECT_NAME := kozmodb
+install_kozmodb:
+	pip install -e .
+	pip install -r requirements/requirements-dev.txt
+	pre-commit install
 
-# Default target
-all: format sort lint
+install_handler:
+	@if [[ -n "$(HANDLER_NAME)" ]]; then\
+		pip install -e .[$(HANDLER_NAME)];\
+	else\
+		echo 'Please set $$HANDLER_NAME to the handler to install.';\
+	fi	
+precommit:
+	pre-commit install
+	pre-commit run --files $$(git diff --cached --name-only)
 
-install:
-	hatch env create
-
-install_all:
-	# First install the local kozmograph package
-	cd kozmograph && pip install -e .
-	# Install packages that commonly cause conflicts first
-	pip install "shapely>=2.0.0,<2.1.0" --prefer-binary
-	pip install "numpy>=1.24.0,<2.0.0" --prefer-binary
-	# Install basic packages without protobuf dependencies
-	pip install ruff==0.6.9 groq together boto3 litellm ollama elasticsearch opensearch-py \
-			upstash-vector azure-search-documents rank-bm25
-	# Install sentence transformers and basic vector stores (avoid chromadb and weaviate in CI)
-	pip install sentence_transformers pinecone pinecone-text vecs
-	# Install langchain packages (avoid langchain-neo4j which has weaviate conflicts)
-	pip install langchain-community
-	# Set compatible protobuf version for Google packages
-	pip install "protobuf>=5.29.0,<6.0.0"
-	pip install "google-api-core>=2.11.0,<3.0.0"
-	# Install Google packages at the end
-	pip install google-generativeai google-ai-generativelanguage
-	pip install google-cloud-aiplatform grpc-google-iam-v1 google-cloud-iam
-	pip install vertexai
-	pip install --no-cache-dir --only-binary=faiss-cpu faiss-cpu
-
-# Format code with ruff
 format:
-	hatch run format
+	pre-commit run --hook-stage manual
 
-# Sort imports with isort
-sort:
-	hatch run isort kozmodb/
+run_kozmodb:
+	python -m kozmodb
 
-# Lint code with ruff
-lint:
-	hatch run lint
+check:
+	python tests/scripts/check_requirements.py
+	python tests/scripts/check_print_statements.py
+	pre-commit install
+	pre-commit run --files $$(git diff --cached --name-only)
 
-docs:
-	cd docs && mintlify dev
+build_docker:
+	docker buildx build -t mdb --load -f docker/kozmodb.Dockerfile .
 
-build:
-	hatch build
+run_docker: build_docker
+	docker run -it -p 47334:47334 mdb
 
-publish:
-	hatch publish
+integration_tests:
+	pytest $(PYTEST_ARGS) tests/integration/ -k "not test_auth"
+	pytest $(PYTEST_ARGS) tests/integration/ -k test_auth  # Run this test separately because it alters the auth requirements, which breaks other tests
 
-clean:
-	rm -rf dist
+integration_tests_slow:
+	pytest --runslow $(PYTEST_ARGS) tests/integration/ -k "not test_auth"
+	pytest --runslow $(PYTEST_ARGS) tests/integration/ -k test_auth
 
-test:
-	hatch run test
+integration_tests_debug:
+	pytest $(PYTEST_ARGS_DEBUG) tests/integration/
+
+unit_tests:
+	# We have to run executor tests separately because they do weird things that break everything else
+	env PYTHONPATH=./ pytest $(PYTEST_ARGS) tests/unit/executor/  
+	pytest $(PYTEST_ARGS) --ignore=tests/unit/executor tests/unit/
+
+unit_tests_slow:
+	env PYTHONPATH=./ pytest --runslow $(PYTEST_ARGS) tests/unit/executor/  # We have to run executor tests separately because they do weird things that break everything else
+	pytest --runslow $(PYTEST_ARGS) --ignore=tests/unit/executor tests/unit/
+
+unit_tests_debug:
+	env PYTHONPATH=./ pytest $(PYTEST_ARGS_DEBUG) tests/unit/executor/  
+	pytest $(PYTEST_ARGS_DEBUG) --ignore=tests/unit/executor tests/unit/
+
+.PHONY: install_kozmodb install_handler precommit format run_kozmodb check build_docker run_docker integration_tests integration_tests_slow integration_tests_debug unit_tests unit_tests_slow unit_tests_debug

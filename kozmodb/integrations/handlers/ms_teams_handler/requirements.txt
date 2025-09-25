@@ -1,0 +1,4 @@
+botframework-connector
+botbuilder-schema
+msal
+-r kozmodb/integrations/utilities/handlers/auth_utilities/microsoft/requirements.txt

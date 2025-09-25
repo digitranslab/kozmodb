@@ -1,0 +1,1 @@
+-r kozmodb/integrations/handlers/matrixone_handler/requirements.txt

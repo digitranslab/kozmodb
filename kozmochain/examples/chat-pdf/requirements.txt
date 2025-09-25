@@ -1,4 +1,0 @@
-streamlit
-kozmochain
-langchain-text-splitters
-pysqlite3-binary

@@ -1,0 +1,9 @@
+__title__ = 'KozmoDB SAP MaxDB handler'
+__package_name__ = 'kozmodb_maxdb_handler'
+__version__ = '0.0.1'
+__description__ = "KozmoDB handler for SAP MAXDB"
+__author__ = 'Marsid Mali & Sergi Poula'
+__github__ = 'https://github.com/digitranslab/kozmodb'
+__pypi__ = 'https://pypi.org/project/kozmodb/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2023- kozmodb'

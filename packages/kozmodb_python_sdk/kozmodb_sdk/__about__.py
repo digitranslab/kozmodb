@@ -1,0 +1,10 @@
+__title__ = 'kozmodb_sdk'
+__package_name__ = 'kozmodb_sdk'
+__version__ = '3.4.8'
+__description__ = "KozmoDB Python SDK, provides an SDK to use a remote kozmodb instance"
+__email__ = "jorge@kozmodb.com"
+__author__ = 'KozmoDB Inc'
+__github__ = 'https://github.com/digitranslab/kozmodb_python_sdk'
+__pypi__ = 'https://pypi.org/project/kozmodb-sdk/'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2020- kozmodb'

@@ -1,0 +1,30 @@
+---
+title: KozmoDB APIs
+sidebarTitle: KozmoDB APIs
+---
+
+KozmoDB provides multiple APIs with optional authentication mechanisms.
+
+## APIs
+
+When you start KozmoDB, the following APIs become available:
+
+* **HTTP API**, along with **A2A API** and **MCP API**, runs on port `47334`.
+
+  - Access the KozmoDB Editor at `kozmodb-instance-url:47334`
+
+  - Access the MCP API at `kozmodb-instance-url:47334/mcp/`
+
+  - Access the A2A API at `kozmodb-instance-url:47334/a2a/`
+
+* **MySQL API** runs on port `47335`.
+
+  - Connect to KozmoDB from database clients as if it were a standard MySQL database.
+
+## Authentication
+
+Authentication mechanism covers HTTP API, A2A API, and MCP API.
+
+You can configure authentication by setting [environment variables](/setup/environment-vars#kozmodb-authentication) or by defining credentials in the [configuration file](/setup/custom-config#auth).
+
+For details on generating and using KozmoDB authentication tokens, refer to the [authentication guide](/rest/authentication).

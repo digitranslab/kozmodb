@@ -1,32 +1,23 @@
-# Mintlify Starter Kit
+# KozmoDB Documentation    <a href="https://docs.kozmodb.com?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo"><img src="https://img.shields.io/website?url=https%3A%2F%2Fwww.kozmodb.com%2F" alt="KozmoDB Docs"/></a>	
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+## Running the docs locally
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
-
-### Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+First install `mintlify`:
 
 ```
 npm i -g mintlify
 ```
-
-Run the following command at the root of your documentation (where mint.json is)
+Then, start the server:
 
 ```
 mintlify dev
 ```
 
-### Publishing Changes
+The documentation website will be available at `http://127.0.0.1:3000`
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
 
-#### Troubleshooting
 
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `mint.json`
+## How can you help us? [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/digitranslab/kozmodb-docs/issues)
+
+* [How to Contribute docs](https://docs.kozmodb.com/contribute)
+* [Writing Documentation](https://docs.kozmodb.com/contribute/docs)
