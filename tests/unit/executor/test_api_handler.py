@@ -41,7 +41,7 @@ class TestApiHandler(BaseExecutorDummyML):
                 WITH
                   ENGINE = 'github',
                   PARAMETERS = {
-                    "repository": "kozmodb/kozmodb",
+                    "repository": "digitranslab/kozmodb",
                     "api_key": "-"
                   }
         """)

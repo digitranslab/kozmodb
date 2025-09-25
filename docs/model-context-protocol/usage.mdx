@@ -34,13 +34,13 @@ Follow the steps below to use KozmoDB as an MCP server.
     * Start KozmoDB MCP server without authentication to connect it to [Cursor](/mcp/cursor_usage).
 
         ```bash
-        docker run --name kozmodb_container -p 47334:47334 -p 47335:47335 kozmodb/kozmodb
+        docker run --name kozmodb_container -p 47334:47334 -p 47335:47335 digitranslab/kozmodb
         ```
 
     * Start KozmoDB MCP server with authentication to connect it to [OpenAI](/mcp/openai) or [Anthropic](/mcp/anthropic).
 
         ```bash
-        docker run --name kozmodb_container -p 47334:47334 -p 47335:47335 -e KOZMODB_USERNAME=admin -e KOZMODB_PASSWORD=password123 kozmodb/kozmodb
+        docker run --name kozmodb_container -p 47334:47334 -p 47335:47335 -e KOZMODB_USERNAME=admin -e KOZMODB_PASSWORD=password123 digitranslab/kozmodb
         ```
 
         Then get an auth token from KozmoDB:

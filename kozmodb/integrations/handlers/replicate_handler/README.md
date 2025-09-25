@@ -28,7 +28,7 @@ USING
     api_key = 'r8_BpO.........................';
 ```
 
-> Note before using Replicate you will need to Authenticate by setting your token in an environment variable `REPLICATE_API_TOKEN`. If you are using `pip` run `export REPLICATE_API_TOKEN=YOUR TOKEN` or `Docker` with `docker run -e REPLICATE_API_TOKEN=YOUR TOKEN -p 47334:47334 -p 47335:47335 kozmodb/kozmodb`
+> Note before using Replicate you will need to Authenticate by setting your token in an environment variable `REPLICATE_API_TOKEN`. If you are using `pip` run `export REPLICATE_API_TOKEN=YOUR TOKEN` or `Docker` with `docker run -e REPLICATE_API_TOKEN=YOUR TOKEN -p 47334:47334 -p 47335:47335 digitranslab/kozmodb`
 
 ## Models Examples
 

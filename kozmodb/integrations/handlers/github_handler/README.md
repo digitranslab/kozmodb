@@ -68,7 +68,7 @@ however, GitHub aggressively rate limits unauthenticated users. Read about creat
 CREATE DATABASE kozmodb_github
 WITH ENGINE = 'github',
 PARAMETERS = {
-  "repository": "kozmodb/kozmodb",
+  "repository": "digitranslab/kozmodb",
   "api_key": "your_api_key"    -- optional GitHub API key
 };
 ~~~~

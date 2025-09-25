@@ -11,11 +11,11 @@ https://pypi.org/project/KozmoDB/ so no files in parent dir are used.
 To build `release` image using version reported at
 https://public.api.kozmodb.com/installer/release/docker___success___None
 
-    docker build -f release --no-cache -t kozmodb/kozmodb .
+    docker build -f release --no-cache -t digitranslab/kozmodb .
 
 To build `release` image with specific KozmoDB version.
 
-    docker build -f release --build-arg VERSION=2.57.0 -t kozmodb/kozmodb .
+    docker build -f release --build-arg VERSION=2.57.0 -t digitranslab/kozmodb .
 
 ### `beta` vs `release`
 

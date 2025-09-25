@@ -4,7 +4,7 @@
 
 # KozmoDB example commands
 
-We will use the "[Heart Disease](https://raw.githubusercontent.com/kozmodb/kozmodb-examples/master/classics/heart_disease/processed_data/train.csv)" dataset:
+We will use the "[Heart Disease](https://raw.githubusercontent.com/digitranslab/kozmodb-examples/master/classics/heart_disease/processed_data/train.csv)" dataset:
 
 >NOTE: In below tutorial, it has been assumed that **heart_disease** is in **files** database
 

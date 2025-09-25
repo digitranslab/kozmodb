@@ -14,7 +14,7 @@ services:
 
   kozmodb:
     <<: *autoRestartOnFailure
-    image: kozmodb/kozmodb:devel
+    image: digitranslab/kozmodb:devel
 
     depends_on:
       postgres:

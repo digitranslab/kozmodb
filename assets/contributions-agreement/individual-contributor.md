@@ -1,7 +1,7 @@
-# KozmoDB, Inc. Contributor License Agreement
+# DigitransLab. Contributor License Agreement
 
 By Submitting a Contribution to a Project, you hereby accept and agree to the following terms and
-conditions (this “Agreement”) for your prior, present and future Contributions submitted to KozmoDB, Inc.
+conditions (this “Agreement”) for your prior, present and future Contributions submitted to DigitransLab.
 (“Company”). Except for the licenses granted herein to Company, you reserve all right, title, and interest
 in and to your Contributions.
 

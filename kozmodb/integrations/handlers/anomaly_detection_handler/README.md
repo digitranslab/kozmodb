@@ -81,7 +81,7 @@ USING
 
 ## Usage
 
-To run example queries, use the data from this [CSV file](https://raw.githubusercontent.com/kozmodb/kozmodb/staging/tests/unit/ml_handlers/data/anomaly_detection.csv).
+To run example queries, use the data from this [CSV file](https://raw.githubusercontent.com/digitranslab/kozmodb/staging/tests/unit/ml_handlers/data/anomaly_detection.csv).
 
 ### Unsupervised detection
 

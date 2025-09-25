@@ -1,42 +1,4 @@
-
-
-<a name="readme-top"></a>
-
-<div align="center">
-	<a href="https://pypi.org/project/KozmoDB/" target="_blank"><img src="https://badge.fury.io/py/KozmoDB.svg" alt="KozmoDB Release"></a>
-	<a href="https://www.python.org/downloads/" target="_blank"><img src="https://img.shields.io/badge/python-3.10.x%7C%203.11.x-brightgreen.svg" alt="Python supported"></a>
-	<a href="https://hub.docker.com/u/kozmodb" target="_blank"><img src="https://img.shields.io/docker/pulls/kozmodb/kozmodb" alt="Docker pulls"></a>
-
-  <br />
-  <br />
-
-  <a href="https://trendshift.io/repositories/3068" target="_blank"><img src="https://trendshift.io/api/badge/repositories/3068" alt="kozmodb%2Fkozmodb | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-  <a href="https://github.com/digitranslab/kozmodb">
-    <img src="/docs/assets/kozmodb_logo.png" alt="KozmoDB" width="300">
-  </a>
-
-  <p align="center">
-    <br />
-    <a href="https://www.kozmodb.com?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo">Website</a>
-    ·
-    <a href="https://docs.kozmodb.com?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo">Docs</a>
-    ·
-    <a href="https://kozmodb.com/contact">Contact us for a Demo</a>
-    ·
-    <a href="https://kozmodb.com/joincommunity?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo">Community Slack</a>
-  </p>
-</div>
-
-----------------------------------------
-
-
 KozmoDB enables humans, AI, agents, and applications to get highly accurate answers across large scale data sources.
-
-<a href="https://www.youtube.com/watch?v=MX3OKpnsoLM" target="_blank">
-  <img src="https://github.com/user-attachments/assets/119e7b82-f901-4214-a26f-ff7c5ad86064" alt="KozmoDB Demo">
-	
-</a>
 
 
 ## Install KozmoDB Server 
@@ -78,41 +40,3 @@ Chat with Your Data
 
 * [**AGENTS**](https://docs.kozmodb.com/kozmodb_sql/agents/agent) – Configure built-in agents specialized in answering questions over your connected and unified data.
 * [**MCP**](https://docs.kozmodb.com/mcp/overview) – Connect to KozmoDB through the MCP (Model Context Protocol) for seamless interaction.
-
-----------------------------------------
-
-## 🤝 Contribute
-
-Interested in contributing to KozmoDB? Follow our [installation guide for development](https://docs.kozmodb.com/contribute/install?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo).
-
-You can find our [contribution guide here](https://docs.kozmodb.com/contribute/contribute?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo).
-
-We welcome suggestions! Feel free to open new issues with your ideas, and we’ll guide you.
-
-This project adheres to a [Contributor Code of Conduct](https://github.com/digitranslab/kozmodb/blob/main/CODE_OF_CONDUCT.md). By participating, you agree to follow its terms.
-
-Also, check out our [community rewards and programs](https://kozmodb.com/community?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo).
-
-## 🤍 Support
-
-If you find a bug, please submit an [issue on GitHub](https://github.com/digitranslab/kozmodb/issues/new/choose).
-
-Here’s how you can get community support:
-
-* Ask a question in our [Slack Community](https://kozmodb.com/joincommunity?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo).
-* Join our [GitHub Discussions](https://github.com/digitranslab/kozmodb/discussions).
-* Post on [Stack Overflow](https://stackoverflow.com/questions/tagged/kozmodb) with the KozmoDB tag.
-
-For commercial support, please [contact the KozmoDB team](https://kozmodb.com/contact?utm_medium=community&utm_source=github&utm_campaign=kozmodb%20repo).
-
-## 💚 Current Contributors
-
-<a href="https://github.com/digitranslab/kozmodb/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=kozmodb/kozmodb" />
-</a>
-
-Generated with [contributors-img](https://contributors-img.web.app).
-
-## 🔔 Subscribe for Updates
-
-Join our [Slack community](https://kozmodb.com/joincommunity)
