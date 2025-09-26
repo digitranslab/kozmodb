@@ -2,13 +2,17 @@ name: KozmoDB Evaluator Tests Workflow
 
 on:
   push:
+    paths:
+      - 'packages/kozmodb_evaluator/**'
   pull_request:
     branches:
       - stable
       - staging
+    paths:
+      - 'packages/kozmodb_evaluator/**'
     paths-ignore:
-      - 'docssrc/**'
-      - '**.md'
+      - 'packages/kozmodb_evaluator/docssrc/**'
+      - 'packages/kozmodb_evaluator/**.md'
 
 jobs:
   test:
@@ -17,6 +21,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.10","3.11", "3.12", "3.13"]
+    defaults:
+      run:
+        working-directory: ./packages/kozmodb_evaluator
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -45,6 +52,9 @@ jobs:
     environment: PublishCI
     needs: test
     if: github.ref == 'refs/heads/stable'
+    defaults:
+      run:
+        working-directory: ./packages/kozmodb_evaluator
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python

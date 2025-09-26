@@ -1,11 +1,11 @@
 """
 *******************************************************
- * Copyright (C) 2017 KozmoDB Inc. <copyright@kozmodb.com>
+ * Copyright (C) 2017 DigitransLab. <copyright@kozmodb.com>
  *
  * This file is part of KozmoDB Server.
  *
  * KozmoDB Server can not be copied and/or distributed without the express
- * permission of KozmoDB Inc
+ * permission of DigitransLab
  *******************************************************
 """
 from kozmodb.api.executor.datahub.datanodes import InformationSchemaDataNode

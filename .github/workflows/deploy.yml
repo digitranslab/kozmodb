@@ -79,7 +79,7 @@ jobs:
     - uses: FranzDiebold/github-env-vars-action@v2
     - name: Notify of deployment starting
       id: slack
-      uses: kozmodb/github-actions/slack-deploy-msg@main
+      uses: digitranslab/github-actions/slack-deploy-msg@main
       with:
         channel-id: ${{ secrets.SLACK_DEPLOYMENTS_CHANNEL_ID }}
         status: "started"
@@ -87,7 +87,7 @@ jobs:
         env-name: ${{ matrix.deploy-env }}
         env-url: ${{ vars.MDB_ENV_URL }}
         slack-token: ${{ secrets.GH_ACTIONS_SLACK_BOT_TOKEN }}
-    - uses: kozmodb/github-actions/dispatch-and-wait@main
+    - uses: digitranslab/github-actions/dispatch-and-wait@main
       with:
         owner: kozmodb
         repo: INTERNAL-kozmodb-build-deploy-to-kubernetes
@@ -95,7 +95,7 @@ jobs:
         workflow: ${{ inputs.prod && 'deploy-prod.yml' || 'deploy-dev.yml' }}
         workflow_inputs: '{"image-tag-prefix": "${{ inputs.image-tag }}", "deploy-env": "${{ matrix.deploy-env }}"}'
     - name: Notify of deployment finish
-      uses: kozmodb/github-actions/slack-deploy-msg@main
+      uses: digitranslab/github-actions/slack-deploy-msg@main
       if: always()
       with:
         channel-id: ${{ secrets.SLACK_DEPLOYMENTS_CHANNEL_ID }}

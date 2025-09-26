@@ -127,12 +127,3 @@ To run all the tests for the components, use the following command:
 ```bash
 env PYTHONPATH=./ pytest
 ```
-
-## Contributing
-
-We welcome contributions to the KozmoDB SDK. If you'd like to contribute, please refer to the contribution guidelines for more information.
-
-## License
-
-The KozmoDB SDK is licensed under the MIT License. Feel free to use and modify it according to your needs
-

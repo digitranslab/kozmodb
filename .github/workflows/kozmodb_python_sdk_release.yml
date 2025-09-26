@@ -1,8 +1,13 @@
-name: Release
+name: KozmoDB Python SDK Release
 
 on:
   release:
     types: [published]
+  push:
+    paths:
+      - 'packages/kozmodb_python_sdk/**'
+    tags:
+      - 'kozmodb_python_sdk-*'
 
 jobs:
   test:
@@ -11,6 +16,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11']
+    defaults:
+      run:
+        working-directory: ./packages/kozmodb_python_sdk
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -32,10 +40,12 @@ jobs:
         fi
       shell: bash
 
-
   deploy:
     runs-on: ubuntu-latest
     needs: test
+    defaults:
+      run:
+        working-directory: ./packages/kozmodb_python_sdk
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python

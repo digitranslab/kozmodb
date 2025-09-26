@@ -2,7 +2,7 @@
 name = "kozmodb-evaluator"
 version = "0.0.20"
 description = "Model evaluation for Machine Learning pipelines."
-authors = ["KozmoDB Inc. <hello@kozmodb.com>"]
+authors = ["DigitransLab. <hello@kozmodb.com>"]
 license = "GPL-3.0"
 readme = "README.md"
 packages = [{include = "kozmodb_evaluator"}]

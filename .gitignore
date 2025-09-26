@@ -64,3 +64,5 @@ node_modules
 
 kozmodb/**/pyproject.toml
 kozmodb/**/uv.lock
+
+archive

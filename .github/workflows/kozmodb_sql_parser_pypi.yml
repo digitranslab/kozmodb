@@ -1,17 +1,27 @@
-name: Build and publish to pypi
+name: KozmoDB SQL Parser - Build and publish to pypi
 
 on:
   release:
     types: [published]
+    paths:
+      - 'packages/kozmodb_sql_parser/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/kozmodb_sql_parser/**'
 
 jobs:
  #  Push a new release to PyPI
   deploy_to_pypi:
-    name: Publish to PyPI
+    name: Publish KozmoDB SQL Parser to PyPI
     runs-on: ubuntu-latest
     permissions:
       contents: read
     if: github.actor != 'kozmodbadmin'
+    defaults:
+      run:
+        working-directory: ./packages/kozmodb_sql_parser
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python

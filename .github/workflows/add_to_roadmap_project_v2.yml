@@ -14,5 +14,5 @@ jobs:
     steps:
       - uses: actions/add-to-project@v0.4.0
         with:
-          project-url: https://github.com/orgs/kozmodb/projects/53
+          project-url: https://github.com/orgs/digitranslab/projects/53
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}

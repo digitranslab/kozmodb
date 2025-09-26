@@ -10,8 +10,8 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
 
 project = 'Kozmodb python SDK'
-copyright = '2023, KozmoDB Inc'
-author = 'KozmoDB Inc'
+copyright = '2023, DigitransLab'
+author = 'DigitransLab'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

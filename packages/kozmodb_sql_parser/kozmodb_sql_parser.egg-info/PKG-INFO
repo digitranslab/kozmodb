@@ -4,7 +4,7 @@ Version: 0.11.4
 Summary: Kozmodb SQL parser
 Home-page: https://github.com/digitranslab/kozmodb_sql_parser
 Download-URL: https://pypi.org/project/kozmodb_sql_parser
-Author: KozmoDB Inc
+Author: DigitransLab
 Author-email: jorge@kozmodb.com
 License: MIT
 Classifier: Programming Language :: Python :: 3

@@ -58,7 +58,7 @@ jobs:
       deploy-envs: ${{ steps.get-labels.outputs.deploy-envs }}
     steps:
       - id: get-labels
-        uses: kozmodb/github-actions/get-deploy-labels@main
+        uses: digitranslab/github-actions/get-deploy-labels@main
 
   # Build our docker images based on our bake file
   build:
@@ -71,7 +71,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       # Build the bakefile and push
-      - uses: kozmodb/github-actions/docker-bake@main
+      - uses: digitranslab/github-actions/docker-bake@main
         with:
           git-sha: ${{ github.event.pull_request.head.sha }}
           target: cloud-cpu
@@ -89,7 +89,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       # Build the bakefile and push
-      - uses: kozmodb/github-actions/docker-bake@main
+      - uses: digitranslab/github-actions/docker-bake@main
         with:
           git-sha: ${{ github.event.pull_request.head.sha }}
           target: cloud-cpu
