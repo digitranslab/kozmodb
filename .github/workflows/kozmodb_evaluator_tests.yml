@@ -10,9 +10,6 @@ on:
       - staging
     paths:
       - 'packages/kozmodb_evaluator/**'
-    paths-ignore:
-      - 'packages/kozmodb_evaluator/docssrc/**'
-      - 'packages/kozmodb_evaluator/**.md'
 
 jobs:
   test:
