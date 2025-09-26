@@ -1,3 +1,5 @@
+name: KozmoDB Deploy
+
 permissions:
   contents: read
 
