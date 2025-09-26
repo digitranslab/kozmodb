@@ -66,3 +66,7 @@ kozmodb/**/pyproject.toml
 kozmodb/**/uv.lock
 
 archive
+# Backup directories
+backup_*/
+*.tar.gz
+rename_log_*.txt
