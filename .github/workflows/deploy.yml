@@ -17,7 +17,7 @@ on:
     secrets:
       SLACK_DEPLOYMENTS_CHANNEL_ID:
         required: true
-      REPO_DISPATCH_PAT_TOKEN:
+      DIGITRANS_GITHUB_TOKEN:
         required: true
       KOZMODB_DB_URI:
         required: true
@@ -91,7 +91,7 @@ jobs:
       with:
         owner: kozmodb
         repo: INTERNAL-kozmodb-build-deploy-to-kubernetes
-        token: ${{ secrets.REPO_DISPATCH_PAT_TOKEN }}
+        token: ${{ secrets.DIGITRANS_GITHUB_TOKEN }}
         workflow: ${{ inputs.prod && 'deploy-prod.yml' || 'deploy-dev.yml' }}
         workflow_inputs: '{"image-tag-prefix": "${{ inputs.image-tag }}", "deploy-env": "${{ matrix.deploy-env }}"}'
     - name: Notify of deployment finish

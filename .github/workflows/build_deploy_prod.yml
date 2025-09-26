@@ -118,7 +118,7 @@ jobs:
         with:
           owner: kozmodb
           repo: kozmodb-docker-extension
-          github_token: ${{ secrets.REPO_DISPATCH_PAT_TOKEN }}
+          github_token: ${{ secrets.DIGITRANS_GITHUB_TOKEN }}
           workflow_file_name: bump-kozmodb-version.yml
           ref: main
           client_payload: '{"image-tag": "${{ env.CI_REF_NAME }}"}'
