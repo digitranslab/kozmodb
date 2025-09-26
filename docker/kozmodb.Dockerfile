@@ -4,16 +4,12 @@
 FROM python:3.10 AS deps
 WORKDIR /kozmodb
 
-# Copy everything to begin with
-# This will almost always invalidate the cache for this stage
-COPY . .
-# Find every FILE that is not a requirements file and delete it
-RUN find ./ -type f -not -name "requirements*.txt" -print | xargs rm -f \
-# Find every empty directory and delete it
-    && find ./ -type d -empty -delete
-# Copy setup.py and everything else used by setup.py
+# Copy requirements files and essential build files
+COPY requirements/ requirements/
 COPY setup.py default_handlers.txt README.md ./
 COPY kozmodb/__about__.py kozmodb/
+# Copy packages directory for local package installation
+COPY packages/ packages/
 # Now this stage only contains a few files and the layer hash will be the same if they don't change.
 # Which will mean the next stage can be cached, even if the cache for the above stage was invalidated.
 
@@ -52,11 +48,15 @@ ENV UV_LINK_MODE=copy \
     VIRTUAL_ENV=/venv \
     PATH=/venv/bin:$PATH
 
-# Install all requirements for kozmodb and all the default handlers
-# Installs everything into a venv in /kozmodb so that everything is isolated
+# Install local packages first, then basic requirements
+# We'll install the main kozmodb package later after copying the source code
 RUN --mount=type=cache,target=/root/.cache \
     uv venv /venv \
-    && uv pip install pip "."
+    && uv pip install pip \
+    && uv pip install ./packages/kozmodb_sql_parser \
+    && uv pip install ./packages/kozmodb_sql \
+    && uv pip install ./packages/kozmodb_python_sdk \
+    && cd packages/kozmodb_evaluator && uv pip install . && cd ../..
 
 
 
@@ -72,7 +72,8 @@ RUN --mount=type=cache,target=/root/.cache \
 # Here is where we invalidate the cache again if ANY file has changed
 COPY . .
 # Install the "kozmodb" package now that we have the code for it
-RUN --mount=type=cache,target=/root/.cache uv pip install --no-deps "."
+# The local packages are already installed from the previous stage
+RUN --mount=type=cache,target=/root/.cache uv pip install "."
 
 COPY docker/kozmodb_config.release.json /root/kozmodb_config.json
 
@@ -104,8 +105,10 @@ RUN --mount=target=/var/lib/apt,type=cache,sharing=locked \
     libpq5 freetds-bin curl
 
 # Install dev requirements and install 'kozmodb' as an editable package
-RUN --mount=type=cache,target=/root/.cache uv pip install -r requirements/requirements-dev.txt \
-                                        && uv pip install --no-deps -e "."
+# The local packages are already installed from the previous stage
+RUN --mount=type=cache,target=/root/.cache \
+    uv pip install -r requirements/requirements-dev.txt \
+    && uv pip install --no-deps -e "."
 
 COPY docker/kozmodb_config.release.json /root/kozmodb_config.json
 
